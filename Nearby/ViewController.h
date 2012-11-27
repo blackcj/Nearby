@@ -13,25 +13,25 @@
 #define kGOOGLE_API_KEY @"AIzaSyBp1eIXnp363gQRhYxspanUPDrGKyMPy5k"
 #define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
+@class SearchView;
+
 // Added MKMapViewDelegate to allow assignmnet to mapView.delegate
-@interface ViewController : UIViewController <MKMapViewDelegate>
+@interface ViewController : UIViewController <MKMapViewDelegate, UITextFieldDelegate>
 {
-    //UIWebView *webView;
-    MKMapView *mapView;
+    SearchView *searchView;
+    //MKMapView *mapView;
     CLLocationCoordinate2D coordinate;
     int currentDist;
 }
 // Stores the current radius of the view window
 @property (nonatomic) int currentDist;
 
-// First approach was Google Maps view
-//@property (nonatomic, retain) UIWebView *webView;
-
 // Decided on MapKit to utlize more Objective C code
-@property (nonatomic, retain) MKMapView *mapView;
+@property (nonatomic, retain) SearchView *searchView;
 
 // Stores the current position
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 
+- (void)cleanUpMap;
 
 @end

@@ -8,12 +8,12 @@
 
 #import "ViewController.h"
 #import "MapMarker.h"
+#import "SearchView.h"
 
 @implementation ViewController
 @synthesize currentDist;        // Current radius of the map viewport at the current zoom
 @synthesize coordinate;         // Stores the map center point
-@synthesize mapView;            // MapKit view object
-//@synthesize webView;          // First approach was to use UIWebView
+@synthesize searchView;            // MapView instance
 
 #pragma mark - View lifecycle
 
@@ -21,63 +21,27 @@
  *  Initialize the view
  *
  */
-- (void)loadView
+- (void) loadView
 {
-    CGRect rect = [UIScreen mainScreen].bounds; 
-    UIView *view = [[UIView alloc] initWithFrame:rect];
-    view.backgroundColor = [UIColor lightGrayColor];
-    view.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-    self.view = view;
-    self.view.autoresizesSubviews = YES;
-    [view release];
     [super loadView];
 }
 
-/**
- *  Initialize the map and add to the view.
- *
- */
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
+    CGRect rect = [UIScreen mainScreen].applicationFrame; 
+    self.searchView = [[SearchView alloc] initWithFrame:rect];
+    self.searchView.mapKit.delegate = self;
+    self.searchView.searchField.delegate = self;
+    self.view = self.searchView;
     [super viewDidLoad];
-    // START HTML5 web view for Google Maps - decided not to use this
-    // NSString *url = @"url";
-    // NSURLRequest *request = [NSURLRequest requestWithURL:[NSURL URLWithString:url]];
-    // webView = [[UIWebView alloc] initWithFrame:self.view.bounds];
-    // webView.autoresizesSubviews = YES;
-    // webView.autoresizingMask=(UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-    // [webView loadRequest:request];
-    // [self.view addSubview:webView];
-    // END HTML5 web view
-    
-    coordinate.longitude = 0.0;
-    coordinate.latitude = 0.0;
-    
-    // MapKit view
-    // set to self.view.bounds to auto resize to parent
-    mapView = [[MKMapView alloc] initWithFrame:self.view.bounds];   
-    
-    // Config variables for code generated map
-    mapView.showsUserLocation = YES;
-    mapView.mapType = MKMapTypeHybrid;
-    mapView.delegate = self;
-    
-    // Auto resize on orientation change.
-    mapView.autoresizesSubviews = YES;
-    mapView.autoresizingMask=(UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-    
-    // Add the map to the view/
-    [self.view addSubview:mapView];
-    
-    
-    
 }
 
 /**
  *  Make call to Google Places API
  *
  */
--(void) queryGooglePlaces {
+-(void) queryGooglePlaces 
+{
     // Build the url string to send to Google.
     NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&types=cafe&sensor=true&key=%@", coordinate.latitude, coordinate.longitude,[NSString stringWithFormat:@"%i", currentDist], kGOOGLE_API_KEY];
     //NSLog(url);
@@ -91,11 +55,33 @@
     });
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
+    [self.view endEditing:YES];
+    [self.searchView removeMapOverlay];
+    [super touchesBegan:touches withEvent:event];
+}
+
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
+    
+    [self.searchView addMapOverlay];
+    
+    return YES;
+}
+
+
+- (BOOL)textFieldShouldReturn:(UITextField *)textField {
+    [textField resignFirstResponder];
+    [self.searchView removeMapOverlay];
+    return NO;
+}
+
 /**
  *  Update points of interest when the map center point changes.
  *
  */
--(void)mapView:(MKMapView *)aMapView regionDidChangeAnimated:(BOOL)animated {
+-(void) mapView:(MKMapView *)aMapView regionDidChangeAnimated:(BOOL)animated 
+{
+    
     //Get the east and west points on the map so you can calculate the distance (zoom level) of the current map view.
     MKMapRect mRect = aMapView.visibleMapRect;
     MKMapPoint eastMapPoint = MKMapPointMake(MKMapRectGetMinX(mRect), MKMapRectGetMidY(mRect));
@@ -114,8 +100,8 @@
  *  Zoom to user location on first load.
  *
  */
-- (void)mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
-    if(coordinate.longitude == 0){
+- (void) mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
+    //if(coordinate.longitude == 0){
         //NSLog(@"update location");
         MKCoordinateRegion region;
         MKCoordinateSpan span;
@@ -127,7 +113,7 @@
         region.span = span;
         region.center = location;
         [aMapView setRegion:region animated:YES];
-    }
+    //}
 }
 
 /**
@@ -135,12 +121,21 @@
  *
  */
 -(void)plotPositions:(NSArray *)data {
-    // Remove existing markers.
-    for (id<MKAnnotation> annotation in mapView.annotations) {
-        if ([annotation isKindOfClass:[MapMarker class]]) {
-            [mapView removeAnnotation:annotation];
-        }
+    
+    [self cleanUpMap];
+    MKMapView *mapView = self.searchView.mapKit;
+    
+    if(data.count == 0)
+    {
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Results" 
+                                                        message:@"Pleae try a different search term or zoom out." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];
+        [alert show];
+        [alert release];
     }
+    
     // Loop through the data returned from Goolge Places API and place markers.
     for (int i=0; i<[data count]; i++) {
         NSDictionary* place = [data objectAtIndex:i];
@@ -157,7 +152,7 @@
         placeCoord.longitude=[[loc objectForKey:@"lng"] doubleValue];
         MapMarker *placeObject = [[MapMarker alloc] initWithName:name address:vicinity coordinate:placeCoord];
         [mapView addAnnotation:placeObject];
-        [placeObject release];
+        //[placeObject release];
     }
 }
 
@@ -179,9 +174,22 @@
     [self plotPositions:places];
 }
 
+- (void)cleanUpMap {
+    
+    MKMapView *mapView = self.searchView.mapKit;
+    // Remove existing markers.
+    for (id<MKAnnotation> annotation in mapView.annotations) {
+        if ([annotation isKindOfClass:[MapMarker class]]) {
+            [mapView removeAnnotation:annotation];
+            [annotation release];
+        }
+    }
+    
+}
+
 - (void)dealloc {
-    [mapView release];
-    //[webView release];
+    [self cleanUpMap];
+    [searchView release];
     [super dealloc];
 }
 
