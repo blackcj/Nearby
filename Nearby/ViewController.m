@@ -12,8 +12,11 @@
 
 @implementation ViewController
 @synthesize currentDist;        // Current radius of the map viewport at the current zoom
-@synthesize coordinate;         // Stores the map center point
+@synthesize lastLocation;         // Stores the map center point
+@synthesize userLocation;         // 
 @synthesize searchView;            // MapView instance
+@synthesize focusShift;
+@synthesize searchTerm;
 
 #pragma mark - View lifecycle
 
@@ -28,12 +31,27 @@
 
 - (void) viewDidLoad
 {
+    searchTerm = @"cafe";
+    focusShift = TRUE;
+    lastLocation.longitude = 0.0;
+    lastLocation.latitude = 0.0;
+    userLocation.longitude = 0.0;
+    userLocation.latitude = 0.0;
     CGRect rect = [UIScreen mainScreen].applicationFrame; 
     self.searchView = [[SearchView alloc] initWithFrame:rect];
     self.searchView.mapKit.delegate = self;
     self.searchView.searchField.delegate = self;
+    [self.searchView.navigateButton addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
+    self.searchView.navigateButton.selected = YES;
     self.view = self.searchView;
     [super viewDidLoad];
+}
+
+- (void) clickHandler:(id)sender
+{
+    focusShift = TRUE;
+    self.searchView.navigateButton.selected = YES;
+    [self zoomMap];
 }
 
 /**
@@ -43,7 +61,7 @@
 -(void) queryGooglePlaces 
 {
     // Build the url string to send to Google.
-    NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&types=cafe&sensor=true&key=%@", coordinate.latitude, coordinate.longitude,[NSString stringWithFormat:@"%i", currentDist], kGOOGLE_API_KEY];
+    NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", lastLocation.latitude, lastLocation.longitude,[NSString stringWithFormat:@"%i", currentDist], searchTerm, kGOOGLE_API_KEY];
     //NSLog(url);
     //Formulate the string as a URL object.
     NSURL *googleRequestURL=[NSURL URLWithString:url];
@@ -72,6 +90,8 @@
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
     [textField resignFirstResponder];
     [self.searchView removeMapOverlay];
+    searchTerm = self.searchView.searchField.text;
+    [self queryGooglePlaces];
     return NO;
 }
 
@@ -89,31 +109,73 @@
     
     //Set your current distance instance variable.
     currentDist = MKMetersBetweenMapPoints(eastMapPoint, westMapPoint);
-
-    NSLog(@"moved");
-    coordinate = aMapView.centerCoordinate;
+    
+    MKCoordinateRegion mapRegion;   
+    
+    // set the center of the map region to the now updated map view center
+    mapRegion.center = aMapView.centerCoordinate;
+    
+    //mapRegion.span.latitudeDelta = 0.3; // you likely don't need these... just kinda hacked this out
+    //mapRegion.span.longitudeDelta = 0.3;
+    
+    // get the lat & lng of the map region
+    double lat = mapRegion.center.latitude;
+    double lng = mapRegion.center.longitude;
+    
+    CLLocation *before = [[CLLocation alloc] initWithLatitude:lastLocation.latitude longitude:lastLocation.longitude];
+    CLLocation *now = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
+    
+    CLLocationDistance distance = ([before distanceFromLocation:now]) * 0.000621371192 / (currentDist / 1000);
+    [before release];
+    [now release];
+    NSLog(@"The value of integer num is %i", currentDist);
+    NSLog(@"Scrolled distance: %@", [NSString stringWithFormat:@"%.02f", distance]);
+    
+    if( distance > SCROLL_UPDATE_DISTANCE || focusShift)
+    {
+        NSLog(@"updated");
+        lastLocation = aMapView.centerCoordinate;
+        if(focusShift)
+        {
+            focusShift = FALSE;
+        }
+        else
+        {
+            self.searchView.navigateButton.selected = NO;
+        }
         
-    [self queryGooglePlaces];
+        [self queryGooglePlaces];
+    }
+    
+    // resave the last location center for the next map move event
+    
 }
 
 /**
- *  Zoom to user location on first load.
+ *  Zoom to user location.
  *
  */
 - (void) mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
-    //if(coordinate.longitude == 0){
+    userLocation.latitude = aUserLocation.coordinate.latitude;
+    userLocation.longitude = aUserLocation.coordinate.longitude;
+    if(self.searchView.navigateButton.selected){
         //NSLog(@"update location");
-        MKCoordinateRegion region;
-        MKCoordinateSpan span;
-        span.latitudeDelta = 0.05;
-        span.longitudeDelta = 0.05;
-        CLLocationCoordinate2D location;
-        location.latitude = aUserLocation.coordinate.latitude;
-        location.longitude = aUserLocation.coordinate.longitude;
-        region.span = span;
-        region.center = location;
-        [aMapView setRegion:region animated:YES];
-    //}
+        lastLocation.latitude = aUserLocation.coordinate.latitude;
+        lastLocation.longitude = aUserLocation.coordinate.longitude;
+        [self zoomMap];
+    }
+}
+
+- (void) zoomMap
+{
+    
+    MKCoordinateRegion region;
+    MKCoordinateSpan span;
+    span.latitudeDelta = 0.05;
+    span.longitudeDelta = 0.05;
+    region.span = span;
+    region.center = userLocation;
+    [self.searchView.mapKit setRegion:region animated:YES];
 }
 
 /**

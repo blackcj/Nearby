@@ -8,6 +8,14 @@
 
 /* Begin PBXBuildFile section */
 		8300C47716641882004C751E /* SearchView.m in Sources */ = {isa = PBXBuildFile; fileRef = 8300C47616641882004C751E /* SearchView.m */; };
+		834B08541666D0630041B279 /* 49.png in Resources */ = {isa = PBXBuildFile; fileRef = 834B08521666D0630041B279 /* 49.png */; };
+		834B08551666D0630041B279 /* 50.png in Resources */ = {isa = PBXBuildFile; fileRef = 834B08531666D0630041B279 /* 50.png */; };
+		834B085E1666DCF10041B279 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C0B5761651BC2F0098474A /* UIKit.framework */; };
+		834B085F1666DCF10041B279 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C0B5781651BC2F0098474A /* Foundation.framework */; };
+		834B08651666DCF10041B279 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 834B08631666DCF10041B279 /* InfoPlist.strings */; };
+		834B08681666DCF10041B279 /* NearbyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 834B08671666DCF10041B279 /* NearbyTests.m */; };
+		834B08BF1666E7D70041B279 /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 834B08BE1666E7D70041B279 /* SenTestingKit.framework */; };
+		834B08C11666F3CA0041B279 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 834B08C01666F3CA0041B279 /* CoreLocation.framework */; };
 		83890DF916657C1500D95853 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83890DF816657C1500D95853 /* QuartzCore.framework */; };
 		83C0B5771651BC2F0098474A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C0B5761651BC2F0098474A /* UIKit.framework */; };
 		83C0B5791651BC2F0098474A /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 83C0B5781651BC2F0098474A /* Foundation.framework */; };
@@ -23,9 +31,29 @@
 		83C0B6021652A1880098474A /* 72-2.png in Resources */ = {isa = PBXBuildFile; fileRef = 83C0B6011652A1880098474A /* 72-2.png */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		834B08B71666DF2E0041B279 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 83C0B5691651BC2F0098474A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 83C0B5711651BC2F0098474A;
+			remoteInfo = Nearby;
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
 		8300C47516641882004C751E /* SearchView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SearchView.h; sourceTree = "<group>"; };
 		8300C47616641882004C751E /* SearchView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SearchView.m; sourceTree = "<group>"; };
+		834B08521666D0630041B279 /* 49.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 49.png; sourceTree = "<group>"; };
+		834B08531666D0630041B279 /* 50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 50.png; sourceTree = "<group>"; };
+		834B085B1666DCF10041B279 /* NearbyTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NearbyTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		834B08621666DCF10041B279 /* NearbyTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "NearbyTests-Info.plist"; sourceTree = "<group>"; };
+		834B08641666DCF10041B279 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		834B08661666DCF10041B279 /* NearbyTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NearbyTests.h; sourceTree = "<group>"; };
+		834B08671666DCF10041B279 /* NearbyTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = NearbyTests.m; sourceTree = "<group>"; };
+		834B08691666DCF10041B279 /* NearbyTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "NearbyTests-Prefix.pch"; sourceTree = "<group>"; };
+		834B08BE1666E7D70041B279 /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
+		834B08C01666F3CA0041B279 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
 		83890DF816657C1500D95853 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		83C0B5721651BC2F0098474A /* Nearby.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Nearby.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		83C0B5761651BC2F0098474A /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -48,10 +76,21 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		834B08571666DCF10041B279 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				834B08BF1666E7D70041B279 /* SenTestingKit.framework in Frameworks */,
+				834B085E1666DCF10041B279 /* UIKit.framework in Frameworks */,
+				834B085F1666DCF10041B279 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		83C0B56F1651BC2F0098474A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				834B08C11666F3CA0041B279 /* CoreLocation.framework in Frameworks */,
 				83890DF916657C1500D95853 /* QuartzCore.framework in Frameworks */,
 				83C0B5CB1651EAF40098474A /* MapKit.framework in Frameworks */,
 				83C0B5771651BC2F0098474A /* UIKit.framework in Frameworks */,
@@ -63,15 +102,43 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		834B08501666D0270041B279 /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				834B08521666D0630041B279 /* 49.png */,
+				834B08531666D0630041B279 /* 50.png */,
+			);
+			name = Assets;
+			sourceTree = "<group>";
+		};
+		834B08601666DCF10041B279 /* NearbyTests */ = {
+			isa = PBXGroup;
+			children = (
+				834B08661666DCF10041B279 /* NearbyTests.h */,
+				834B08671666DCF10041B279 /* NearbyTests.m */,
+				834B08611666DCF10041B279 /* Supporting Files */,
+			);
+			path = NearbyTests;
+			sourceTree = "<group>";
+		};
+		834B08611666DCF10041B279 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				834B08621666DCF10041B279 /* NearbyTests-Info.plist */,
+				834B08631666DCF10041B279 /* InfoPlist.strings */,
+				834B08691666DCF10041B279 /* NearbyTests-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
 		83C0B5671651BC2F0098474A = {
 			isa = PBXGroup;
 			children = (
-				83890DF816657C1500D95853 /* QuartzCore.framework */,
 				83C0B6011652A1880098474A /* 72-2.png */,
 				83C0B5FF1652A0CC0098474A /* 114-2.png */,
 				83C0B5FD1652A0C50098474A /* 57-2.png */,
-				83C0B5CA1651EAF40098474A /* MapKit.framework */,
 				83C0B57C1651BC2F0098474A /* Nearby */,
+				834B08601666DCF10041B279 /* NearbyTests */,
 				83C0B5751651BC2F0098474A /* Frameworks */,
 				83C0B5731651BC2F0098474A /* Products */,
 			);
@@ -81,6 +148,7 @@
 			isa = PBXGroup;
 			children = (
 				83C0B5721651BC2F0098474A /* Nearby.app */,
+				834B085B1666DCF10041B279 /* NearbyTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -88,6 +156,10 @@
 		83C0B5751651BC2F0098474A /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				834B08C01666F3CA0041B279 /* CoreLocation.framework */,
+				834B08BE1666E7D70041B279 /* SenTestingKit.framework */,
+				83C0B5CA1651EAF40098474A /* MapKit.framework */,
+				83890DF816657C1500D95853 /* QuartzCore.framework */,
 				83C0B5761651BC2F0098474A /* UIKit.framework */,
 				83C0B5781651BC2F0098474A /* Foundation.framework */,
 				83C0B57A1651BC2F0098474A /* CoreGraphics.framework */,
@@ -98,6 +170,9 @@
 		83C0B57C1651BC2F0098474A /* Nearby */ = {
 			isa = PBXGroup;
 			children = (
+				83C0B5851651BC2F0098474A /* AppDelegate.h */,
+				83C0B5861651BC2F0098474A /* AppDelegate.m */,
+				834B08501666D0270041B279 /* Assets */,
 				83C0B59B1651BD310098474A /* Model */,
 				83C0B59A1651BD160098474A /* GUI */,
 				83C0B57D1651BC2F0098474A /* Supporting Files */,
@@ -130,8 +205,6 @@
 		83C0B59B1651BD310098474A /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				83C0B5851651BC2F0098474A /* AppDelegate.h */,
-				83C0B5861651BC2F0098474A /* AppDelegate.m */,
 				83C0B5CC1651F4610098474A /* MapMarker.h */,
 				83C0B5CD1651F4610098474A /* MapMarker.m */,
 			);
@@ -141,6 +214,25 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		834B085A1666DCF10041B279 /* NearbyTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 834B086A1666DCF10041B279 /* Build configuration list for PBXNativeTarget "NearbyTests" */;
+			buildPhases = (
+				834B08561666DCF10041B279 /* Sources */,
+				834B08571666DCF10041B279 /* Frameworks */,
+				834B08581666DCF10041B279 /* Resources */,
+				834B08591666DCF10041B279 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				834B08B81666DF2E0041B279 /* PBXTargetDependency */,
+			);
+			name = NearbyTests;
+			productName = NearbyTests;
+			productReference = 834B085B1666DCF10041B279 /* NearbyTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 		83C0B5711651BC2F0098474A /* Nearby */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 83C0B5931651BC300098474A /* Build configuration list for PBXNativeTarget "Nearby" */;
@@ -180,11 +272,20 @@
 			projectRoot = "";
 			targets = (
 				83C0B5711651BC2F0098474A /* Nearby */,
+				834B085A1666DCF10041B279 /* NearbyTests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		834B08581666DCF10041B279 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				834B08651666DCF10041B279 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		83C0B5701651BC2F0098474A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -193,12 +294,38 @@
 				83C0B5FE1652A0C50098474A /* 57-2.png in Resources */,
 				83C0B6001652A0CC0098474A /* 114-2.png in Resources */,
 				83C0B6021652A1880098474A /* 72-2.png in Resources */,
+				834B08541666D0630041B279 /* 49.png in Resources */,
+				834B08551666D0630041B279 /* 50.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		834B08591666DCF10041B279 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		834B08561666DCF10041B279 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				834B08681666DCF10041B279 /* NearbyTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		83C0B56E1651BC2F0098474A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -213,7 +340,23 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		834B08B81666DF2E0041B279 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 83C0B5711651BC2F0098474A /* Nearby */;
+			targetProxy = 834B08B71666DF2E0041B279 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
+		834B08631666DCF10041B279 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				834B08641666DCF10041B279 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		83C0B57F1651BC2F0098474A /* InfoPlist.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -225,11 +368,46 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		834B086B1666DCF10041B279 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NearbyTests/NearbyTests-Prefix.pch";
+				INFOPLIST_FILE = "NearbyTests/NearbyTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				New_Setting = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		834B086C1666DCF10041B279 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(SDKROOT)/Developer/Library/Frameworks",
+					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "NearbyTests/NearbyTests-Prefix.pch";
+				INFOPLIST_FILE = "NearbyTests/NearbyTests-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
+				New_Setting = "";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Release;
+		};
 		83C0B5911651BC300098474A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -251,6 +429,7 @@
 				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
 			};
 			name = Debug;
 		};
@@ -259,6 +438,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				BUNDLE_LOADER = "";
 				CLANG_ENABLE_OBJC_ARC = NO;
 				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=*]" = "iPhone Distribution";
@@ -274,6 +454,7 @@
 				"PROVISIONING_PROFILE[sdk=*]" = "";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -295,6 +476,7 @@
 			buildSettings = {
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Nearby/Nearby-Prefix.pch";
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
 				INFOPLIST_FILE = "Nearby/Nearby-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -305,6 +487,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		834B086A1666DCF10041B279 /* Build configuration list for PBXNativeTarget "NearbyTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				834B086B1666DCF10041B279 /* Debug */,
+				834B086C1666DCF10041B279 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		83C0B56C1651BC2F0098474A /* Build configuration list for PBXProject "Nearby" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

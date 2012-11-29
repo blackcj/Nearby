@@ -9,10 +9,13 @@
 #import "SearchView.h"
 
 @implementation SearchView
+
+@synthesize searchBar;
+@synthesize gradient;
 @synthesize overlay;
-@synthesize mapKit;             // MapKit instance
+@synthesize mapKit;                   // MapKit instance
 @synthesize searchField;
-@synthesize searchButton;       
+@synthesize navigateButton;   // Button in lower left. Jumps to current position.
 
 - (id)initWithFrame:(CGRect)frame
 {
@@ -46,12 +49,14 @@
         overlay.hidden = YES;
         [self addSubview:overlay];
         
-        UIView *view = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.origin.x,self.bounds.origin.y, self.bounds.size.width, 48)];
-        CAGradientLayer *gradient = [CAGradientLayer layer];
-        gradient.frame = view.bounds;
+        searchBar = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.origin.x,self.bounds.origin.y, self.bounds.size.width, 48)];
+        gradient = [CAGradientLayer layer];
+        gradient.frame = searchBar.bounds;
         gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor lightGrayColor] CGColor], (id)[[UIColor grayColor] CGColor], nil];
-        [view.layer insertSublayer:gradient atIndex:0];
-        [self addSubview:view];
+        searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+        searchBar.autoresizesSubviews = YES;
+        [searchBar.layer insertSublayer:gradient atIndex:0];
+        [self addSubview:searchBar];
         
         searchField = [[UITextField alloc] initWithFrame:CGRectMake(self.bounds.origin.x + 6,self.bounds.origin.y + 6, self.bounds.size.width - 12, 36)];
         //searchField.autoresizesSubviews = YES;
@@ -64,12 +69,29 @@
         searchField.autocorrectionType = UITextAutocorrectionTypeNo;
         searchField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         searchField.clearButtonMode = UITextFieldViewModeAlways;
-        [self addSubview:searchField];
-        
-        [self setNeedsDisplayInRect:self.bounds];
+        [searchBar addSubview:searchField];
+
+        navigateButton = [[UIButton alloc] init];
+        [navigateButton setBackgroundImage:[UIImage imageNamed:@"49.png"] forState:UIControlStateNormal];
+        [navigateButton setBackgroundImage:[UIImage imageNamed:@"50.png"] forState:UIControlStateSelected];
+        //navigateButton.selected 
+        navigateButton.frame = CGRectMake(4,self.bounds.size.height - 44, 40, 40);
+        [self addSubview:navigateButton];
         
     }
     return self;
+}
+
+/*
+ Position
+ 
+ */
+- (void) layoutSubviews
+{
+    gradient.frame = searchBar.bounds;
+    gradient.colors = [NSArray arrayWithObjects:(id)[[UIColor lightGrayColor] CGColor], (id)[[UIColor grayColor] CGColor], nil];
+    navigateButton.frame = CGRectMake(4,self.bounds.size.height - 50, 46, 46);
+    [super layoutSubviews];
 }
 
 - (void) addMapOverlay

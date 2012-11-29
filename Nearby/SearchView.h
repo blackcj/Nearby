@@ -13,13 +13,22 @@
 
 @interface SearchView : UIView
 {
+    UIView *searchBar;
+    CAGradientLayer *gradient;
     UIView *overlay;
     MKMapView *mapKit;
     UITextField *searchField;
-    UIButton *searchButton;
-    
+    UIButton *navigateButton;
 }
-// Decided on MapKit to utlize more Objective C code
+
+
+// Container for the searchField and gradient
+@property (nonatomic, retain) UIView *searchBar;
+
+// Gradeint used behind the search field
+@property (nonatomic, retain) CAGradientLayer *gradient;
+
+// Overlay used when user types in the search field
 @property (nonatomic, retain) UIView *overlay;
 
 // Decided on MapKit to utlize more Objective C code
@@ -29,7 +38,7 @@
 @property (nonatomic, retain) UITextField *searchField;
 
 // Stores the current position
-@property (nonatomic, retain) UIButton *searchButton;
+@property (nonatomic, retain) UIButton *navigateButton;
 
 - (void)addMapOverlay;
 
