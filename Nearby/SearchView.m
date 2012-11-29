@@ -45,7 +45,7 @@
         overlay.backgroundColor = [UIColor blackColor];
         overlay.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         overlay.autoresizesSubviews = YES;
-        overlay.alpha = 0.5;
+        overlay.alpha = OVERLAY_ALPHA;
         overlay.hidden = YES;
         [self addSubview:overlay];
         
@@ -59,22 +59,22 @@
         [self addSubview:searchBar];
         
         searchField = [[UITextField alloc] initWithFrame:CGRectMake(self.bounds.origin.x + 6,self.bounds.origin.y + 6, self.bounds.size.width - 12, 36)];
-        //searchField.autoresizesSubviews = YES;
-        searchField.placeholder = @"Search";
+        searchField.placeholder = SEARCH_PLACEHOLDER;
         searchField.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         searchField.borderStyle = UITextBorderStyleRoundedRect;
         searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         searchField.returnKeyType = UIReturnKeyDone;
-        //searchField.placeholder = inPlaceholder;
         searchField.autocorrectionType = UITextAutocorrectionTypeNo;
         searchField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         searchField.clearButtonMode = UITextFieldViewModeAlways;
         [searchBar addSubview:searchField];
 
         navigateButton = [[UIButton alloc] init];
-        [navigateButton setBackgroundImage:[UIImage imageNamed:@"49.png"] forState:UIControlStateNormal];
-        [navigateButton setBackgroundImage:[UIImage imageNamed:@"50.png"] forState:UIControlStateSelected];
-        //navigateButton.selected 
+        [navigateButton setBackgroundImage: [UIImage imageNamed:@"disabled.png"] forState: UIControlStateDisabled];
+        [navigateButton setBackgroundImage:[UIImage imageNamed:@"normal.png"] forState:UIControlStateNormal];
+        [navigateButton setBackgroundImage:[UIImage imageNamed:@"selected_green.png"] forState:UIControlStateSelected];
+        [navigateButton setBackgroundImage: [UIImage imageNamed:@"normal_down.png"] forState: UIControlStateHighlighted];
+        [navigateButton setBackgroundImage: [UIImage imageNamed:@"selected_green.png"] forState: UIControlStateHighlighted | UIControlStateSelected];
         navigateButton.frame = CGRectMake(4,self.bounds.size.height - 44, 40, 40);
         [self addSubview:navigateButton];
         
@@ -82,9 +82,9 @@
     return self;
 }
 
-/*
- Position
- 
+/**
+ *  Position gradient and navigate button.
+ *
  */
 - (void) layoutSubviews
 {
@@ -105,6 +105,19 @@
     overlay.hidden = YES;
 }
 
+/**
+ *  Clean up memory.
+ *
+ */
+- (void)dealloc {
+    [searchBar release];
+    [gradient release];
+    [overlay release];
+    [mapKit release];
+    [searchField release];
+    [navigateButton release];
+    [super dealloc];
+}
 
 /*
 // Only override drawRect: if you perform custom drawing.

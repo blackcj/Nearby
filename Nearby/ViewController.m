@@ -11,10 +11,19 @@
 #import "SearchView.h"
 
 @implementation ViewController
+
+/**
+ *  QUESTION:
+ *  What is the proper syntax for @synthesize? 
+ *  I've seen '@synthesize name = _name', '@sythesize name' and have read that modern Objective C
+ *  automatically synthesizes variables. 
+ *
+ */
+
 @synthesize currentDist;        // Current radius of the map viewport at the current zoom
-@synthesize lastLocation;         // Stores the map center point
-@synthesize userLocation;         // 
-@synthesize searchView;            // MapView instance
+@synthesize lastLocation;       // Stores the map center point
+@synthesize userLocation;       // 
+@synthesize searchView;         // MapView instance
 @synthesize focusShift;
 @synthesize searchTerm;
 
@@ -27,16 +36,16 @@
 - (void) loadView
 {
     [super loadView];
-}
-
-- (void) viewDidLoad
-{
-    searchTerm = @"cafe";
+    
+    // Set default values
+    searchTerm = DEFAULT_SEARCH_TERM;
     focusShift = TRUE;
     lastLocation.longitude = 0.0;
     lastLocation.latitude = 0.0;
     userLocation.longitude = 0.0;
     userLocation.latitude = 0.0;
+    
+    // Create view and add delegates
     CGRect rect = [UIScreen mainScreen].applicationFrame; 
     self.searchView = [[SearchView alloc] initWithFrame:rect];
     self.searchView.mapKit.delegate = self;
@@ -44,21 +53,29 @@
     [self.searchView.navigateButton addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
     self.searchView.navigateButton.selected = YES;
     self.view = self.searchView;
+}
+
+- (void) viewDidLoad
+{
     [super viewDidLoad];
 }
 
+/**
+ *  Click handler for the navigateButton. Used to center the map on the user.
+ *
+ */
 - (void) clickHandler:(id)sender
 {
-    focusShift = TRUE;
-    self.searchView.navigateButton.selected = YES;
-    [self zoomMap];
+    focusShift = TRUE;                              // Shifting focus to lock on user
+    self.searchView.navigateButton.selected = YES;  // Set navigateButton to its selected state
+    [self zoomMap];                                 // Animate map to current user position
 }
 
 /**
  *  Make call to Google Places API
  *
  */
--(void) queryGooglePlaces 
+- (void) queryGooglePlaces 
 {
     // Build the url string to send to Google.
     NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", lastLocation.latitude, lastLocation.longitude,[NSString stringWithFormat:@"%i", currentDist], searchTerm, kGOOGLE_API_KEY];
@@ -73,25 +90,37 @@
     });
 }
 
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
-    [self.view endEditing:YES];
-    [self.searchView removeMapOverlay];
+/**
+ *  Used to pick up touch events on the overlay when the searchField is in focus.
+ *
+ */
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
+{
     [super touchesBegan:touches withEvent:event];
+    [self.view endEditing:YES];                     // Hide keyboard
+    [self.searchView removeMapOverlay];             // Remove map overlay
 }
 
-- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
-    
-    [self.searchView addMapOverlay];
-    
+/**
+ *  Function called when the searchField takes focus.
+ *
+ */
+- (BOOL)textFieldShouldBeginEditing:(UITextField *)textField 
+{
+    [self.searchView addMapOverlay];                // Show semi transparent overlay
     return YES;
 }
 
-
-- (BOOL)textFieldShouldReturn:(UITextField *)textField {
-    [textField resignFirstResponder];
-    [self.searchView removeMapOverlay];
-    searchTerm = self.searchView.searchField.text;
-    [self queryGooglePlaces];
+/**
+ *  Function called when the done button is pressed on the keyboard.
+ *
+ */
+- (BOOL)textFieldShouldReturn:(UITextField *)textField 
+{
+    [textField resignFirstResponder];               // Remove focus from text input
+    [self.searchView removeMapOverlay];             // Hide semi transparent overlay
+    searchTerm = self.searchView.searchField.text;  // Set the search term to the user entered value
+    [self queryGooglePlaces];                       // Query Google Places with the new value
     return NO;
 }
 
@@ -115,49 +144,56 @@
     // set the center of the map region to the now updated map view center
     mapRegion.center = aMapView.centerCoordinate;
     
-    //mapRegion.span.latitudeDelta = 0.3; // you likely don't need these... just kinda hacked this out
-    //mapRegion.span.longitudeDelta = 0.3;
-    
     // get the lat & lng of the map region
     double lat = mapRegion.center.latitude;
     double lng = mapRegion.center.longitude;
     
-    CLLocation *before = [[CLLocation alloc] initWithLatitude:lastLocation.latitude longitude:lastLocation.longitude];
-    CLLocation *now = [[CLLocation alloc] initWithLatitude:lat longitude:lng];
+    CLLocation *before = [[CLLocation alloc] initWithLatitude:lastLocation.latitude longitude:lastLocation.longitude];  //retain count = 1
+    CLLocation *now = [[CLLocation alloc] initWithLatitude:lat longitude:lng];                                          //retain count = 1
     
-    CLLocationDistance distance = ([before distanceFromLocation:now]) * 0.000621371192 / (currentDist / 1000);
-    [before release];
-    [now release];
-    NSLog(@"The value of integer num is %i", currentDist);
-    NSLog(@"Scrolled distance: %@", [NSString stringWithFormat:@"%.02f", distance]);
+    // Calculate distance from before to now. Normalize it. Divide it by the current zoom level to keep it consistent.
+    CLLocationDistance distance = ([before distanceFromLocation:now]) * DISTANCE_MULTIPLIER / (currentDist / 1000);
     
+    //NSLog(@"The value of integer currentDist is %i", currentDist);
+    //NSLog(@"Scrolled distance: %@", [NSString stringWithFormat:@"%.02f", distance]);
+    
+    [before release];   //retain count = 0
+    [now release];      //retain count = 0
+    
+    /*
+        focusShift:
+        This variable is used to determine if the user initiated the movement or if the center on me button initiated movement. If the 
+        center on me button was clicked we are shifing focus back to the user and should keep the navigateButton in it's selected state.
+        If the user initiated the movement, we disable focus lock by deseleting the button.
+     */
     if( distance > SCROLL_UPDATE_DISTANCE || focusShift)
     {
-        NSLog(@"updated");
-        lastLocation = aMapView.centerCoordinate;
+        lastLocation = aMapView.centerCoordinate;   // Store last location to use for calculating distance
+        
         if(focusShift)
         {
+            // User clicked center on me, we are tracking movement
             focusShift = FALSE;
         }
         else
         {
+            // User triggered movement, we are no longer tracking movement
             self.searchView.navigateButton.selected = NO;
         }
         
         [self queryGooglePlaces];
     }
-    
-    // resave the last location center for the next map move event
-    
 }
 
 /**
- *  Zoom to user location.
+ *  Called when the GPS has a new user location.
  *
  */
 - (void) mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
-    userLocation.latitude = aUserLocation.coordinate.latitude;
+    userLocation.latitude = aUserLocation.coordinate.latitude;      // Store current user location to use for zooming to current location
     userLocation.longitude = aUserLocation.coordinate.longitude;
+    
+    // If locked on user is true, zoom to user location
     if(self.searchView.navigateButton.selected){
         //NSLog(@"update location");
         lastLocation.latitude = aUserLocation.coordinate.latitude;
@@ -166,55 +202,60 @@
     }
 }
 
+/**
+ *  Zoom to user location.
+ *
+ */
 - (void) zoomMap
 {
-    
     MKCoordinateRegion region;
     MKCoordinateSpan span;
     span.latitudeDelta = 0.05;
     span.longitudeDelta = 0.05;
     region.span = span;
-    region.center = userLocation;
-    [self.searchView.mapKit setRegion:region animated:YES];
+    region.center = userLocation;                           // Set region center to last known user location
+    [self.searchView.mapKit setRegion:region animated:YES]; // Animate map to that location
 }
 
 /**
- *  Plot data on the map.
+ *  Plot data on the map and add markers.
  *
  */
--(void)plotPositions:(NSArray *)data {
-    
-    [self cleanUpMap];
+-(void)plotPositions:(NSArray *)data 
+{
+    [self cleanUpMap];  // Remove existing markers.
     MKMapView *mapView = self.searchView.mapKit;
     
+    // If no results, alert to the user to try a different term.
     if(data.count == 0)
     {
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Results" 
-                                                        message:@"Pleae try a different search term or zoom out." 
-                                                       delegate:nil 
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];
-        [alert show];
-        [alert release];
+                                                  message:@"Pleae try a different search term or zoom out." 
+                                                  delegate:nil 
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];   //retain count = 1
+        
+        [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
+        [alert release];    //retain count = 1
     }
     
     // Loop through the data returned from Goolge Places API and place markers.
     for (int i=0; i<[data count]; i++) {
-        NSDictionary* place = [data objectAtIndex:i];
+        NSDictionary *place = [data objectAtIndex:i];
         NSDictionary *geo = [place objectForKey:@"geometry"];
         NSDictionary *loc = [geo objectForKey:@"location"];
 
-        NSString *name=[place objectForKey:@"name"];
-        NSString *vicinity=[place objectForKey:@"vicinity"];
+        NSString *name = [place objectForKey:@"name"];
+        NSString *vicinity = [place objectForKey:@"vicinity"];
 
         CLLocationCoordinate2D placeCoord;
         
         // Set the latitude and longitude.
         placeCoord.latitude=[[loc objectForKey:@"lat"] doubleValue];
         placeCoord.longitude=[[loc objectForKey:@"lng"] doubleValue];
-        MapMarker *placeObject = [[MapMarker alloc] initWithName:name address:vicinity coordinate:placeCoord];
-        [mapView addAnnotation:placeObject];
-        //[placeObject release];
+        MapMarker *placeObject = [[MapMarker alloc] initWithName:name address:vicinity coordinate:placeCoord];  //retain count = 1
+        [mapView addAnnotation:placeObject];                                                                    //retain count = 2 (the map does an extra retain)
+        [placeObject release];                                                                                  //retain count = 1
     }
 }
 
@@ -236,19 +277,26 @@
     [self plotPositions:places];
 }
 
+/**
+ *  Removes all current markers on the map. Remove annotation subtracts one from the retain count bringing it to 0.
+ *
+ */
 - (void)cleanUpMap {
     
     MKMapView *mapView = self.searchView.mapKit;
     // Remove existing markers.
     for (id<MKAnnotation> annotation in mapView.annotations) {
         if ([annotation isKindOfClass:[MapMarker class]]) {
-            [mapView removeAnnotation:annotation];
-            [annotation release];
+            [mapView removeAnnotation:annotation]; //retain count = 0
         }
     }
     
 }
 
+/**
+ *  Clean up memory.
+ *
+ */
 - (void)dealloc {
     [self cleanUpMap];
     [searchView release];
