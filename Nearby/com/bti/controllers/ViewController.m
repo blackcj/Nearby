@@ -37,6 +37,13 @@
 {
     [super loadView];
     
+    
+}
+
+- (void) viewDidLoad
+{
+    [super viewDidLoad];
+    
     // Set default values
     searchTerm = DEFAULT_SEARCH_TERM;
     focusShift = TRUE;
@@ -53,11 +60,20 @@
     [self.searchView.navigateButton addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
     self.searchView.navigateButton.selected = YES;
     self.view = self.searchView;
-}
-
-- (void) viewDidLoad
-{
-    [super viewDidLoad];
+    
+    if(kGOOGLE_API_KEY == @"YOUR_GOOGLE_PLACES_API_KEY")
+    {
+        self.searchView.navigateButton.selected = NO;
+        focusShift = FALSE;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid API Key" 
+                                                        message:@"Please add your API key to ViewController.h." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];   //retain count = 1
+        
+        [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
+        [alert release];    //retain count = 1
+    }
 }
 
 /**
@@ -77,17 +93,42 @@
  */
 - (void) queryGooglePlaces 
 {
-    // Build the url string to send to Google.
-    NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", lastLocation.latitude, lastLocation.longitude,[NSString stringWithFormat:@"%i", currentDist], searchTerm, kGOOGLE_API_KEY];
-    //NSLog(url);
-    //Formulate the string as a URL object.
-    NSURL *googleRequestURL=[NSURL URLWithString:url];
+    // If no location, alert to the user to turn on location services.
+    if(userLocation.longitude == 0.0 && self.searchView.navigateButton.selected)
+    {
+        self.searchView.navigateButton.selected = NO;
+        focusShift = FALSE;
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Detect Location" 
+                                                        message:@"Please ensure location services are enabled. Using default location of Minneapolis, MN." 
+                                                       delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];   //retain count = 1
+        
+        [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
+        [alert release];    //retain count = 1
+        userLocation.longitude = -93.2636;
+        userLocation.latitude = 44.9800;
+        [self zoomMap];
+    } 
+    else if(searchTerm.length > 0)
+    {
+        // Build the url string to send to Google.
+        NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", lastLocation.latitude, lastLocation.longitude,[NSString stringWithFormat:@"%i", currentDist], searchTerm, kGOOGLE_API_KEY];
+
+        //Formulate the string as a URL object.
+        NSURL *googleRequestURL=[NSURL URLWithString:url];
+        
+        // Retrieve the results of the URL.
+        dispatch_async(kBgQueue, ^{
+            NSData* data = [NSData dataWithContentsOfURL: googleRequestURL];
+            [self performSelectorOnMainThread:@selector(fetchedData:) withObject:data waitUntilDone:YES];
+        });
+    }
+    else 
+    {
+        [self cleanUpMap];
+    }
     
-    // Retrieve the results of the URL.
-    dispatch_async(kBgQueue, ^{
-        NSData* data = [NSData dataWithContentsOfURL: googleRequestURL];
-        [self performSelectorOnMainThread:@selector(fetchedData:) withObject:data waitUntilDone:YES];
-    });
 }
 
 /**
@@ -166,7 +207,7 @@
         center on me button was clicked we are shifing focus back to the user and should keep the navigateButton in it's selected state.
         If the user initiated the movement, we disable focus lock by deseleting the button.
      */
-    if( distance > SCROLL_UPDATE_DISTANCE || focusShift)
+    if( (distance > SCROLL_UPDATE_DISTANCE || focusShift) && userLocation.longitude != 0.0)
     {
         lastLocation = aMapView.centerCoordinate;   // Store last location to use for calculating distance
         
@@ -180,7 +221,7 @@
             // User triggered movement, we are no longer tracking movement
             self.searchView.navigateButton.selected = NO;
         }
-        
+        //if(currentDist
         [self queryGooglePlaces];
     }
 }
@@ -189,7 +230,8 @@
  *  Called when the GPS has a new user location.
  *
  */
-- (void) mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation {
+- (void) mapView:(MKMapView *)aMapView didUpdateUserLocation:(MKUserLocation *)aUserLocation 
+{
     userLocation.latitude = aUserLocation.coordinate.latitude;      // Store current user location to use for zooming to current location
     userLocation.longitude = aUserLocation.coordinate.longitude;
     
@@ -200,6 +242,27 @@
         lastLocation.longitude = aUserLocation.coordinate.longitude;
         [self zoomMap];
     }
+}
+
+/**
+ *  Error handler.
+ *
+ */
+- (void) mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
+{
+    self.searchView.navigateButton.selected = NO;
+    focusShift = FALSE;
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Detect Location" 
+                                                    message:@"Please ensure location services are enabled. Using default location of Minneapolis, MN." 
+                                                   delegate:nil 
+                                          cancelButtonTitle:@"OK"
+                                          otherButtonTitles:nil];   //retain count = 1
+    
+    [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
+    [alert release];    //retain count = 1
+    userLocation.longitude = -93.2636;
+    userLocation.latitude = 44.9800;
+    [self zoomMap];
 }
 
 /**
@@ -297,14 +360,17 @@
  *  Clean up memory.
  *
  */
-- (void)dealloc {
-    [self cleanUpMap];
+- (void) dealloc 
+{
     [searchView release];
+    [searchTerm release];
     [super dealloc];
 }
 
 - (void)viewDidUnload
 {
+    [searchView release];
+    [searchTerm release];
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;

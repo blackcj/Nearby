@@ -16,9 +16,9 @@
 
 #define kGOOGLE_API_KEY @"YOUR_GOOGLE_PLACES_API_KEY"
 #define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
-#define SCROLL_UPDATE_DISTANCE          0.15
-#define DEFAULT_SEARCH_TERM             @"cafe"
-#define DISTANCE_MULTIPLIER             0.000621371192
+#define SCROLL_UPDATE_DISTANCE          0.10                                    // Distance used to determine if user is scrolling map or walking
+#define DEFAULT_SEARCH_TERM             @"cafe"                                 // Default search term so results show right away
+#define DISTANCE_MULTIPLIER             0.000621371192                          // Used to normalize a really big number
 
 @class SearchView;
 

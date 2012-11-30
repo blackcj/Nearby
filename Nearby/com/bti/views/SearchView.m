@@ -37,7 +37,6 @@
         // Auto resize on orientation change.
         mapKit.autoresizesSubviews = YES;
         mapKit.autoresizingMask=(UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth);
-        
         // Add the map to the view/
         [self addSubview:mapKit];
         
@@ -109,7 +108,8 @@
  *  Clean up memory.
  *
  */
-- (void)dealloc {
+- (void) dealloc 
+{
     [searchBar release];
     [gradient release];
     [overlay release];
