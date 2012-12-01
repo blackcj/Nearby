@@ -275,11 +275,10 @@
     [self zoomMap];
 }
 
-- (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
-{
-    NSLog(@"didSelectAnnotationView");
-}
-
+/**
+ *  When ther user clicks a callout, open the detail page.
+ *
+ */
 - (void) mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)pin calloutAccessoryControlTapped:(UIControl *)control
 {
     NSLog(@"%@", pin.annotation.title);
@@ -349,6 +348,10 @@
     }
 }
 
+/**
+ *  Override default MKAnnotationView to provide a callout accessory and store marker data.
+ *
+ */
 - (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
 {
 	MKPinAnnotationView *annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"searchMap"];
@@ -398,6 +401,7 @@
  */
 - (void) dealloc 
 {
+    [self cleanUpMap];
     [searchView release];
     [searchTerm release];
     [super dealloc];
@@ -405,6 +409,7 @@
 
 - (void)viewDidUnload
 {
+    [self cleanUpMap];
     [searchView release];
     [searchTerm release];
     [super viewDidUnload];

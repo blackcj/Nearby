@@ -4,7 +4,7 @@ Nearby is an iOS application that finds the closest cafe to your current locatio
 
 SDK TARGET VERSION
 ---------------------------
-iOS 6.0
+iOS 5.0
 
 APPLICATION AUTHOR
 ---------------------------
@@ -30,7 +30,7 @@ INSTRUCTIONS
 TEST CASES
 ---------------------------
 - The application has been profiled and doesn't contain memory leaks
-- The test framework has been setup but no test cases have been added at this time (see next steps)
+- Unit tests have been added for the MapMarker class
 
 FRAMEWORKS
 ---------------------------
@@ -44,7 +44,7 @@ FRAMEWORKS
 
 NEXT STEPS
 ---------------------------
-- Add test cases
+- Add more unit tests
 - Add a DetailView page showing more info about the selected marker
 - Add type callout to narrow down results by type
 - Integrate with multiple APIs (Yelp?)

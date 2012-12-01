@@ -14,7 +14,7 @@
 #import <MapKit/MapKit.h>
 #import <CoreLocation/CoreLocation.h>
 
-#define kGOOGLE_API_KEY                 @"AIzaSyBp1eIXnp363gQRhYxspanUPDrGKyMPy5k"
+#define kGOOGLE_API_KEY                 @"YOUR_GOOGLE_PLACES_API_KEY"
 #define SCROLL_UPDATE_DISTANCE          0.10                                    // Distance used to determine if user is scrolling map or walking
 #define DEFAULT_SEARCH_TERM             @"cafe"                                 // Default search term so results show right away
 #define DISTANCE_MULTIPLIER             0.000621371192                          // Used to normalize a really big number
