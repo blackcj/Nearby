@@ -13,16 +13,20 @@
 @implementation AppDelegate
 
 @synthesize window;
-@synthesize viewController;
+@synthesize navigationController;
 
 /**
  *  Kick start the application.
  *
  */
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
-    self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.viewController = [[ViewController alloc] init];
-    [self.window addSubview:viewController.view];
+    
+    ViewController *searchView = [[ViewController alloc] init];
+    navigationController = [[UINavigationController alloc] initWithRootViewController:searchView];
+    
+    window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    window.rootViewController = navigationController;
+    
     [self.window makeKeyAndVisible];
     return YES;
 }
@@ -30,7 +34,7 @@
 // Release window from memory
 - (void)dealloc {
     [window release];
-    [viewController release];
+    [navigationController release];
     [super dealloc];
 }
 

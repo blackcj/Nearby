@@ -11,22 +11,24 @@
 @implementation MapMarker
 @synthesize name = _name;
 @synthesize address = _address;
+@synthesize icon = _icon;
 @synthesize coordinate = _coordinate;
 
-- (id)initWithName:(NSString*)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate 
+- (id)initWithName:(NSString*)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate icon:(NSString*)icon 
 {
     if ((self = [super init])) 
     {
         _name = [name copy];        //retain count = 1
         _address = [address copy];  //retain count = 1
         _coordinate = coordinate;
+        _icon = icon;
     }
     return self;
 }
 
 - (NSString *)title 
 {
-    if ([_name isKindOfClass:[NSNull class]])
+    if ([_name isKindOfClass:[NSNull class]] || _name == @"" || _name == Nil)
     {
         return @"Unknown";
     }

@@ -40,7 +40,7 @@
         // Add the map to the view/
         [self addSubview:mapKit];
         
-        overlay = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.origin.x,40, self.bounds.size.width, self.bounds.size.height - 40)];
+        overlay = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.origin.x,self.bounds.origin.y, self.bounds.size.width, self.bounds.size.height)];
         overlay.backgroundColor = [UIColor blackColor];
         overlay.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         overlay.autoresizesSubviews = YES;
@@ -55,18 +55,18 @@
         searchBar.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
         searchBar.autoresizesSubviews = YES;
         [searchBar.layer insertSublayer:gradient atIndex:0];
-        [self addSubview:searchBar];
+        //[self addSubview:searchBar];
         
-        searchField = [[UITextField alloc] initWithFrame:CGRectMake(self.bounds.origin.x + 6,self.bounds.origin.y + 6, self.bounds.size.width - 12, 36)];
+        searchField = [[UITextField alloc] initWithFrame:CGRectMake(6,6, self.bounds.size.width - 12, 32)];
         searchField.placeholder = SEARCH_PLACEHOLDER;
-        searchField.autoresizingMask = (UIViewAutoresizingFlexibleWidth);
+        searchField.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         searchField.borderStyle = UITextBorderStyleRoundedRect;
         searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
         searchField.returnKeyType = UIReturnKeyDone;
         searchField.autocorrectionType = UITextAutocorrectionTypeNo;
         searchField.autocapitalizationType = UITextAutocapitalizationTypeNone;
         searchField.clearButtonMode = UITextFieldViewModeAlways;
-        [searchBar addSubview:searchField];
+        //[searchBar addSubview:searchField];
 
         navigateButton = [[UIButton alloc] init];
         [navigateButton setBackgroundImage: [UIImage imageNamed:@"disabled.png"] forState: UIControlStateDisabled];

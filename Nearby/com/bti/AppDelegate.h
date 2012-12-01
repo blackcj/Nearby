@@ -18,11 +18,11 @@
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>{
     UIWindow *window;
-    ViewController *viewController;
+    UINavigationController *navigationController;
 }
 
-@property (strong, nonatomic) UIWindow *window;                 // Root Window
+@property (strong, nonatomic) UIWindow *window;                                 // Root Window
 
-@property (strong, nonatomic) ViewController *viewController;   // Root ViewController
+@property (strong, nonatomic) UINavigationController *navigationController;     // Root ViewController
 
 @end

@@ -7,8 +7,6 @@
 //
 
 #import "ViewController.h"
-#import "MapMarker.h"
-#import "SearchView.h"
 
 @implementation ViewController
 
@@ -60,20 +58,32 @@
     [self.searchView.navigateButton addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
     self.searchView.navigateButton.selected = YES;
     self.view = self.searchView;
-    
+
+    //[self.navigationController.navigationBar addSubview:self.searchView.searchField];
+
     if(kGOOGLE_API_KEY == @"YOUR_GOOGLE_PLACES_API_KEY")
     {
         self.searchView.navigateButton.selected = NO;
         focusShift = FALSE;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Invalid API Key" 
-                                                        message:@"Please add your API key to ViewController.h." 
-                                                       delegate:nil 
-                                              cancelButtonTitle:@"OK"
-                                              otherButtonTitles:nil];   //retain count = 1
+                                                  message:@"Please add your API key to ViewController.h." 
+                                                  delegate:nil 
+                                                  cancelButtonTitle:@"OK"
+                                                  otherButtonTitles:nil];   //retain count = 1
         
         [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
         [alert release];    //retain count = 1
     }
+}
+
+- (void) viewWillDisappear:(BOOL)animated
+{
+    [self.searchView.searchField removeFromSuperview];
+}
+
+- (void) viewWillAppear:(BOOL)animated
+{
+    [self.navigationController.navigationBar addSubview:self.searchView.searchField];
 }
 
 /**
@@ -253,16 +263,29 @@
     self.searchView.navigateButton.selected = NO;
     focusShift = FALSE;
     UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Detect Location" 
-                                                    message:@"Please ensure location services are enabled. Using default location of Minneapolis, MN." 
-                                                   delegate:nil 
-                                          cancelButtonTitle:@"OK"
-                                          otherButtonTitles:nil];   //retain count = 1
+                                              message:@"Please ensure location services are enabled. Using default location of Minneapolis, MN." 
+                                              delegate:nil 
+                                              cancelButtonTitle:@"OK"
+                                              otherButtonTitles:nil];   //retain count = 1
     
     [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
     [alert release];    //retain count = 1
     userLocation.longitude = -93.2636;
     userLocation.latitude = 44.9800;
     [self zoomMap];
+}
+
+- (void) mapView:(MKMapView *)aMapView didSelectAnnotationView:(MKAnnotationView *)view
+{
+    NSLog(@"didSelectAnnotationView");
+}
+
+- (void) mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)pin calloutAccessoryControlTapped:(UIControl *)control
+{
+    NSLog(@"%@", pin.annotation.title);
+    DetailViewController *detailController = [[DetailViewController alloc] init];
+    [self.navigationController pushViewController:detailController animated:TRUE];
+    //NSLog(@"calloutAccessoryControlTapped");
 }
 
 /**
@@ -310,16 +333,29 @@
 
         NSString *name = [place objectForKey:@"name"];
         NSString *vicinity = [place objectForKey:@"vicinity"];
+        NSString *icon = [place objectForKey:@"icon"];
 
         CLLocationCoordinate2D placeCoord;
         
         // Set the latitude and longitude.
         placeCoord.latitude=[[loc objectForKey:@"lat"] doubleValue];
         placeCoord.longitude=[[loc objectForKey:@"lng"] doubleValue];
-        MapMarker *placeObject = [[MapMarker alloc] initWithName:name address:vicinity coordinate:placeCoord];  //retain count = 1
+        //MKAnnotationView *marker = [[MKAnnotationView alloc] init];
+
+        MapMarker *placeObject = [[MapMarker alloc] initWithName:name address:vicinity coordinate:placeCoord icon:icon];  //retain count = 1
+        
         [mapView addAnnotation:placeObject];                                                                    //retain count = 2 (the map does an extra retain)
         [placeObject release];                                                                                  //retain count = 1
     }
+}
+
+- (MKAnnotationView *)mapView:(MKMapView *)mapView viewForAnnotation:(id <MKAnnotation>)annotation
+{
+	MKPinAnnotationView *annView = [[MKPinAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:@"searchMap"];
+    annView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];                                
+    annView.canShowCallout = YES;
+                                    
+    return annView;
 }
 
 /**
@@ -336,7 +372,7 @@
                           error:&error];
     
     NSArray* places = [json objectForKey:@"results"]; 
-    //NSLog(@"Google Places Data: %@", places);
+    NSLog(@"Google Places Data: %@", places);
     [self plotPositions:places];
 }
 
