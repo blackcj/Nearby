@@ -65,11 +65,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Nearby/com/bti/models/MapMarker.m"
-         timestampString = "376093631.236828"
+         timestampString = "376103824.276094"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "31"
-         endingLineNumber = "31"
+         startingLineNumber = "33"
+         endingLineNumber = "33"
          landmarkName = "-title"
          landmarkType = "5">
       </FileBreakpoint>
@@ -92,13 +92,67 @@
          ignoreCount = "0"
          continueAfterRunningActions = "No"
          isPathRelative = "1"
-         filePath = "Nearby/com/bti/controllers/ViewController.m"
-         timestampString = "376094721.413141"
+         filePath = "Nearby/com/bti/models/MapMarker.m"
+         timestampString = "376104967.368134"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "285"
-         endingLineNumber = "285"
-         landmarkName = "-mapView:annotationView:calloutAccessoryControlTapped:"
+         startingLineNumber = "15"
+         endingLineNumber = "15"
+         landmarkName = "placeId"
+         landmarkType = "19">
+         <Locations>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "-[MapMarker placeId]"
+               urlString = "file://localhost/Users/chris/Documents/iOS/Nearby/Nearby/com/bti/models/MapMarker.m"
+               timestampString = "376104967.401461"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "15"
+               endingLineNumber = "15">
+            </Location>
+            <Location
+               shouldBeEnabled = "No"
+               ignoreCount = "0"
+               continueAfterRunningActions = "No"
+               symbolName = "-[MapMarker setPlaceId:]"
+               urlString = "file://localhost/Users/chris/Documents/iOS/Nearby/Nearby/com/bti/models/MapMarker.m"
+               timestampString = "376104967.401712"
+               startingColumnNumber = "9223372036854775807"
+               endingColumnNumber = "9223372036854775807"
+               startingLineNumber = "15"
+               endingLineNumber = "15">
+            </Location>
+         </Locations>
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Nearby/com/bti/controllers/ViewController.m"
+         timestampString = "376174940.762399"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "51"
+         endingLineNumber = "51"
+         landmarkName = "-viewDidLoad"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "Nearby/com/bti/controllers/SearchMapController.m"
+         timestampString = "376175650.247544"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "247"
+         endingLineNumber = "247"
+         landmarkName = "-mapView:viewForAnnotation:"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

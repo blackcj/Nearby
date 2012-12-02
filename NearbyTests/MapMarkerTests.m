@@ -17,7 +17,7 @@
     placeCoord.longitude = -93.2636;
     placeCoord.latitude = 44.9800;
     
-    MapMarker *marker = [[MapMarker alloc] initWithName:@"Starbucks" address:@"123 Grand Ave" coordinate:placeCoord];
+    MapMarker *marker = [[MapMarker alloc] initWithName:@"Starbucks" address:@"123 Grand Ave" coordinate:placeCoord icon:@"" placeId:@""];
     NSString *title = [marker title];
     
     STAssertEqualObjects(@"Starbucks", title, @"wrong title");
@@ -39,7 +39,7 @@
     placeCoord.longitude = -93.2636;
     placeCoord.latitude = 44.9800;
     
-    MapMarker *marker = [[MapMarker alloc] initWithName:@"" address:@"123 Grand Ave" coordinate:placeCoord];
+    MapMarker *marker = [[MapMarker alloc] initWithName:@"" address:@"123 Grand Ave" coordinate:placeCoord icon:@"" placeId:@""];
     NSString *title = [marker title];
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");
@@ -53,7 +53,7 @@
     placeCoord.longitude = -93.2636;
     placeCoord.latitude = 44.9800;
     
-    MapMarker *marker = [[MapMarker alloc] initWithName:Nil address:@"123 Grand Ave" coordinate:placeCoord];
+    MapMarker *marker = [[MapMarker alloc] initWithName:Nil address:@"123 Grand Ave" coordinate:placeCoord icon:@"" placeId:@""];
     NSString *title = [marker title];
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");
@@ -71,18 +71,5 @@
     
     [marker release];
 }
-/*
-- (void)testChangeSides
-{
-    SPRectangle *rect = [SPRectangle rectangleWithX:5 y:10 width:5 height:2];
-    
-    rect.right = 11.0f;
-    STAssertEqualsWithAccuracy(11.0f, rect.right, E, @"wrong right property");
-    STAssertEqualsWithAccuracy( 6.0f, rect.width, E, @"wrong width");
-    
-    rect.bottom = 11.0f;
-    STAssertEqualsWithAccuracy(11.0f, rect.bottom, E, @"wrong bottom property");
-    STAssertEqualsWithAccuracy( 1.0f, rect.height, E, @"wrong height");
-}
-*/
+
 @end

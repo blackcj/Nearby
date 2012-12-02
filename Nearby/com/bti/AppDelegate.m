@@ -23,7 +23,7 @@
     
     ViewController *searchView = [[ViewController alloc] init];
     navigationController = [[UINavigationController alloc] initWithRootViewController:searchView];
-    
+    navigationController.navigationBar.tintColor = [UIColor colorWithRed:(26.0f/255.0f) green:(103.0f/255.0f) blue:(159.0f/255.0f) alpha:1.0f];
     window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     window.rootViewController = navigationController;
     

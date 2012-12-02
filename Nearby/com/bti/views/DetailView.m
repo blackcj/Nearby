@@ -16,11 +16,18 @@
     if (self) {
         // Initialization code
         
-        self.backgroundColor = [UIColor redColor];
+        self.backgroundColor = [UIColor whiteColor];
         self.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
         self.autoresizesSubviews = YES;
+        
     }
     return self;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+    for(UIView *subview in [self subviews]) {
+        subview.center = self.center;
+    }
 }
 
 /*

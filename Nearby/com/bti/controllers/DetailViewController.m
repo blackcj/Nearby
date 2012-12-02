@@ -11,12 +11,14 @@
 @implementation DetailViewController
 
 @synthesize detailView;
+@synthesize marker;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+- (id)initWithMarker:(MapMarker *)mapMarker
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
+    self = [super init];
     if (self) {
         // Custom initialization
+        self.marker = mapMarker;
     }
     return self;
 }
@@ -29,33 +31,29 @@
     // Release any cached data, images, etc that aren't in use.
 }
 
+#pragma mark - View lifecycle
+
+// Implement loadView to create a view hierarchy programmatically, without using a nib.
+- (void)loadView
+{
+    [super loadView];
+}
+
 - (void) viewDidLoad
 {
     [super viewDidLoad];
     
+    [self setTitle:marker.title];
     // Create view and add delegates
     CGRect rect = [UIScreen mainScreen].applicationFrame; 
     self.detailView = [[DetailView alloc] initWithFrame:rect];
     self.view = self.detailView;
     self.navigationController.navigationBar.hidden = NO;
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:marker.icon]]];
+    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
+    [self.view addSubview:imageView];
+    [imageView setCenter:CGPointMake(CGRectGetMidX([self.view bounds]), 60.0)];
 }
-
-#pragma mark - View lifecycle
-
-/*
-// Implement loadView to create a view hierarchy programmatically, without using a nib.
-- (void)loadView
-{
-}
-*/
-
-/*
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-}
-*/
 
 - (void)viewDidUnload
 {
