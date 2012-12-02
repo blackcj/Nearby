@@ -16,7 +16,7 @@
 #import "DetailViewController.h"
 #import "SearchMapController.h"
 
-#define kGOOGLE_API_KEY                 @"AIzaSyBp1eIXnp363gQRhYxspanUPDrGKyMPy5k"  // Google Places API Key
+#define kGOOGLE_API_KEY                 @"YOUR_GOOGLE_PLACES_API_KEY"  // Google Places API Key
 #define DEFAULT_SEARCH_TERM             @"cafe"                                     // Default search term so results show right away
 
 #define INVALID_KEY_ERROR               @"Invalid API Key"
