@@ -16,14 +16,6 @@
 @synthesize userLocation;       // Stores last known user location
 @synthesize focusShift;         // Used to determine if the user moved the map
 
-- (void)didReceiveMemoryWarning
-{
-    // Releases the view if it doesn't have a superview.
-    [super didReceiveMemoryWarning];
-    
-    // Release any cached data, images, etc that aren't in use.
-}
-
 #pragma mark - View lifecycle
 
 /**
@@ -33,25 +25,16 @@
 - (void) loadView
 {
     [super loadView];
-
-    focusShift = TRUE;
-    lastLocation.longitude = 0.0;
-    lastLocation.latitude = 0.0;
-    userLocation.longitude = 0.0;
-    userLocation.latitude = 0.0;
+    
+    [self setLocationToDefault];
+    
 }
 
 - (void) viewDidLoad
 {
     [super viewDidLoad];
     
-    // Create view and add delegates
-    CGRect rect = [UIScreen mainScreen].applicationFrame; 
-    self.searchMapView = [[SearchMapView alloc] initWithFrame:rect];
-    self.searchMapView.mapKit.delegate = self;
-    [self.searchMapView.navigateButton addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
-    self.searchMapView.navigateButton.selected = YES;
-    self.view = self.searchMapView;
+    [self generateSearchView];
     
 }
 
@@ -80,6 +63,27 @@
 }
 
 #pragma mark - General Functions
+
+
+- (void) setLocationToDefault
+{
+    focusShift = TRUE;
+    lastLocation.longitude = 0.0;
+    lastLocation.latitude = 0.0;
+    userLocation.longitude = 0.0;
+    userLocation.latitude = 0.0;
+}
+
+- (void) generateSearchView
+{
+    // Create view and add delegates
+    CGRect rect = [UIScreen mainScreen].applicationFrame; 
+    self.searchMapView = [[SearchMapView alloc] initWithFrame:rect];
+    self.searchMapView.mapKit.delegate = self;
+    [self.searchMapView.navigateButton addTarget:self action:@selector(clickHandler:) forControlEvents:UIControlEventTouchUpInside];
+    self.searchMapView.navigateButton.selected = YES;
+    self.view = self.searchMapView;
+}
 
 /**
  *  If no location is found, set default data.
@@ -119,8 +123,8 @@
     span.latitudeDelta = 0.05;
     span.longitudeDelta = 0.05;
     region.span = span;
-    region.center = userLocation;                           // Set region center to last known user location
-    [self.searchMapView.mapKit setRegion:region animated:YES]; // Animate map to that location
+    region.center = userLocation;                               // Set region center to last known user location
+    [self.searchMapView.mapKit setRegion:region animated:YES];  // Animate map to that location
 }
 
 /**
@@ -229,8 +233,8 @@
  */
 - (void) mapView:(MKMapView *)mapView didFailToLocateUserWithError:(NSError *)error
 {
-    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Unable to Detect Location" 
-                                              message:@"Please ensure location services are enabled. Using default location of Minneapolis, MN." 
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NO_LOCATION_TITLE 
+                                              message:NO_LOCATION_MESSAGE 
                                               delegate:nil 
                                               cancelButtonTitle:CANCEL_TITLE
                                               otherButtonTitles:nil];   //retain count = 1

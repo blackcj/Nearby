@@ -14,6 +14,8 @@
 #import <MapKit/MapKit.h>
 
 #define OVERLAY_ALPHA                  0.5
+#define NAV_BUTTON_PADDING             4
+#define NAV_BUTTON_HEIGHT              40
 
 @interface SearchMapView : UIView
 {
@@ -29,7 +31,7 @@
 // Decided on MapKit to utlize more Objective C code
 @property (nonatomic, retain) MKMapView *mapKit;
 
-// 
+// Button used to lock to user location
 @property (nonatomic, retain) UIButton *navigateButton;
 
 // Darken the map, used when searchInput has focus. Also helps to pick up touch events to hide keyboard.

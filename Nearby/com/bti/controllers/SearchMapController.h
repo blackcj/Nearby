@@ -23,6 +23,9 @@
 #define SHOW_DETAIL_EVENT               @"showDetails"      // Notification dispatched when the user clicks more info on a pin
 #define CANCEL_TITLE                    @"OK"
 
+#define NO_LOCATION_TITLE               @"Unable to Detect Location"
+#define NO_LOCATION_MESSAGE             @"Please ensure location services are enabled. Using default location of Minneapolis, MN."
+
 #define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
 
@@ -68,5 +71,9 @@
 
 // Loads default data when user location is unavailable
 - (void) setDefaultData;
+
+- (void) setLocationToDefault;
+
+- (void) generateSearchView;
 
 @end

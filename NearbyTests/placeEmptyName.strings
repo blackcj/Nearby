@@ -1,0 +1,40 @@
+/* 
+  placeEmptyName.strings
+  Nearby
+
+  Created by Christopher Black on 12/2/12.
+  Copyright (c) 2012 Blacktop Interactive, LLC. All rights reserved.
+ 
+  Sample data set for MapMarker unit tests.
+*/
+{
+    geometry =     {
+        location =         {
+            lat = "37.323451";
+            lng = "-122.02948";
+        };
+    };
+    icon = "http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png";
+    id = 05c2cb35e7ec0145a61f629d53141bce49e639cb;
+    name = "";
+    "opening_hours" =     {
+        "open_now" = 0;
+    };
+    photos =     (
+    {
+        height = 1280;
+        "html_attributions" =             (
+        );
+        "photo_reference" = "CnRnAAAA3_B4ZiTuSb4asmslk_MCEUqWpw1B61c6kNTAKiNJeW3MhSUFNX0bfe1etpgyxOGIPNQXqw4qj8rKquS5utVhU7xr8bn7xxopJWGg_YpmfnRW65QMwoPrJmXTEc0z4dDqvRplMuexL-4EL2ZmAYpJSBIQCqtUE8IQgjY6ZolPsQ0q7BoUqk3uBW6oG2XkI_6soD33Xu2FDv8";
+        width = 853;
+    }
+    );
+    rating = 4;
+    reference = "CqQBmwAAAAonlTK1uy4i1rRopgr16dmhrX-Z9W50IElNTxYH9aklf4aKfNMvaMEvjVgKiEqoly6m7CPsfxmmBfOaIt7vHA39Mz82d45RwJB-7iV5bxaAMj-X6k-I51-BzpTKz-mwqgGTG0eazIpLbSS0Pw5zvG4dvy9og3O6JnO-IcMp-4NWKiUk58b59246Ov2fzIrHEsqKZXLg2qguiDw0N6G3cZMSENMPhORzlP64VXdW4PO2ScgaFL8TszRngEx0XjhCBYJjnhWQmFhX";
+    types =     (
+    restaurant,
+    food,
+    establishment
+    );
+    vicinity = "20343 Stevens Creek Boulevard, Cupertino";
+}

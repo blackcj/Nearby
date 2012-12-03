@@ -16,14 +16,14 @@
 #import "DetailViewController.h"
 #import "SearchMapController.h"
 
-#define kGOOGLE_API_KEY                 @"YOUR_GOOGLE_PLACES_API_KEY"  // Google Places API Key
+#define kGOOGLE_API_KEY                 @"YOUR_GOOGLE_PLACES_API_KEY"               // Google Places API Key
 #define DEFAULT_SEARCH_TERM             @"cafe"                                     // Default search term so results show right away
 
 #define INVALID_KEY_ERROR               @"Invalid API Key"
 #define INVALID_KEY_MESSAGE             @"Please add your API key to ViewController.h."
 
-#define NO_LOCATION_TITLE               @"Unable to Detect Location"
-#define NO_LOCATION_MESSAGE             @"Please ensure location services are enabled. Using default location of Minneapolis, MN."
+#define NO_RESULTS_TITLE                @"No Results"
+#define NO_RESULTS_MESSAGE              @"Pleae try a different search term or zoom out."
 
 // Added MKMapViewDelegate to allow assignmnet to mapView.delegate
 @interface ViewController : UIViewController <UITextFieldDelegate>

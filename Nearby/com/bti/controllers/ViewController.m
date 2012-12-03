@@ -63,6 +63,8 @@
      selector:@selector(showDetailPage:)
      name:SHOW_DETAIL_EVENT
      object:nil ];
+    
+    
 
     if(kGOOGLE_API_KEY == @"YOUR_GOOGLE_PLACES_API_KEY")
     {
@@ -176,8 +178,8 @@
     // If no results, alert to the user to try a different term.
     if(data.count == 0)
     {
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"No Results" 
-                                                  message:@"Pleae try a different search term or zoom out." 
+        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NO_RESULTS_TITLE 
+                                                  message:NO_RESULTS_MESSAGE
                                                   delegate:nil 
                                                   cancelButtonTitle:CANCEL_TITLE
                                                   otherButtonTitles:nil];   //retain count = 1
@@ -189,24 +191,7 @@
     // Loop through the data returned from Goolge Places API and place markers.
     for (int i=0; i<[data count]; i++) {
         NSDictionary *place = [data objectAtIndex:i];
-        NSDictionary *geo = [place objectForKey:@"geometry"];
-        NSDictionary *loc = [geo objectForKey:@"location"];
-        
-        NSString *name = [place objectForKey:@"name"];
-        NSString *vicinity = [place objectForKey:@"vicinity"];
-        NSString *icon = [place objectForKey:@"icon"];
-        NSString *placeId = [place objectForKey:@"id"];
-        
-        CLLocationCoordinate2D placeCoord;
-        
-        // Set the latitude and longitude.
-        placeCoord.latitude=[[loc objectForKey:@"lat"] doubleValue];
-        placeCoord.longitude=[[loc objectForKey:@"lng"] doubleValue];
-        //MKAnnotationView *marker = [[MKAnnotationView alloc] init];
-        
-        MapMarker *placeObject = [[MapMarker alloc] initWithName:name address:vicinity coordinate:placeCoord icon:icon placeId:placeId];  //retain count = 1
-        //[placesDictionary setObject: placeObject forKey: i];
-        
+        MapMarker *placeObject = [[MapMarker alloc] initWithData:place];  //retain count = 1
         [mapView addAnnotation:placeObject];                                                                    //retain count = 2 (the map does an extra retain)
         [placeObject release];                                                                                  //retain count = 1
     }

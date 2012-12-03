@@ -15,22 +15,42 @@
 @synthesize placeId = _placeId;
 @synthesize coordinate = _coordinate;
 
-- (id)initWithName:(NSString*)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate icon:(NSString*)icon placeId:(NSString*)placeId
+- (id) initWithData:(NSDictionary *)place
 {
     if ((self = [super init])) 
     {
+        NSDictionary *geo = [place objectForKey:@"geometry"];
+        NSDictionary *loc = [geo objectForKey:@"location"];
+        
+        NSString *name = [place objectForKey:@"name"];
+        NSString *address = [place objectForKey:@"vicinity"];
+        NSString *icon = [place objectForKey:@"icon"];
+        NSString *placeId = [place objectForKey:@"id"];
+        
+        CLLocationCoordinate2D placeCoord;
+        
+        // Set the latitude and longitude.
+        placeCoord.latitude=[[loc objectForKey:@"lat"] doubleValue];
+        placeCoord.longitude=[[loc objectForKey:@"lng"] doubleValue];
+        
         _name = [name copy];        //retain count = 1
         _address = [address copy];  //retain count = 1
-        _coordinate = coordinate;
+        _coordinate = placeCoord;
         _placeId = [placeId copy];  //retain count = 1
-        _icon = [icon copy];        //retain count = 1
+        _icon = [icon copy]; 
     }
     return self;
+    
+}
+
+- (NSString *)iconPath
+{
+    return _icon;
 }
 
 - (NSString *)title 
 {
-    if ([_name isKindOfClass:[NSNull class]] || _name == @"" || _name == Nil)
+    if ([_name isKindOfClass:[NSNull class]] || _name == @"" || _name.length == 0 || _name == Nil)
     {
         return @"Unknown";
     }

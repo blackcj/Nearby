@@ -29,8 +29,9 @@ INSTRUCTIONS
 
 TEST CASES
 ---------------------------
-- The application has been profiled and doesn't contain memory leaks
-- Unit tests have been added for the MapMarker class
+- The application has been profiled to check for memory leaks
+- Logic tests have been added for the MapMarker class
+- Unit tests have been added for the SearchMapController class
 
 FRAMEWORKS
 ---------------------------

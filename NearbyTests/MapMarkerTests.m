@@ -13,33 +13,34 @@
 // All code under test must be linked into the Unit Test bundle
 - (void)testInitWithName
 {
-    CLLocationCoordinate2D placeCoord;
-    placeCoord.longitude = -93.2636;
-    placeCoord.latitude = 44.9800;
-    
-    MapMarker *marker = [[MapMarker alloc] initWithName:@"Starbucks" address:@"123 Grand Ave" coordinate:placeCoord icon:@"" placeId:@""];
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"place" ofType:@"strings"];
+    NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:path];
+
+    MapMarker *marker = [[MapMarker alloc] initWithData:data];
     NSString *title = [marker title];
     
-    STAssertEqualObjects(@"Starbucks", title, @"wrong title");
+    STAssertEqualObjects(@"Cafe Torre", title, @"wrong title");
     
     NSString *subtitle = [marker subtitle];
-    STAssertEqualObjects(@"123 Grand Ave", subtitle, @"wrong subtitle"); 
+    STAssertEqualObjects(@"20343 Stevens Creek Boulevard, Cupertino", subtitle, @"wrong subtitle"); 
    
+    NSString *iconPath = [marker iconPath];
+    STAssertEqualObjects(@"http://maps.gstatic.com/mapfiles/place_api/icons/restaurant-71.png", iconPath, @"wrong subtitle"); 
+    
     CLLocationCoordinate2D coordinate = [marker coordinate];
     
-    STAssertEquals(-93.2636, coordinate.longitude, @"wrong initial latitude");
-    STAssertEquals(44.9800, coordinate.latitude, @"wrong initial longitude");
+    STAssertEquals(-122.02948, coordinate.longitude, @"wrong initial latitude");
+    STAssertEquals(37.323451, coordinate.latitude, @"wrong initial longitude");
     
     [marker release];
 }
 
 - (void)testEmptyName
 {
-    CLLocationCoordinate2D placeCoord;
-    placeCoord.longitude = -93.2636;
-    placeCoord.latitude = 44.9800;
+    NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"placeEmptyName" ofType:@"strings"];
+    NSDictionary *data = [NSDictionary dictionaryWithContentsOfFile:path];
     
-    MapMarker *marker = [[MapMarker alloc] initWithName:@"" address:@"123 Grand Ave" coordinate:placeCoord icon:@"" placeId:@""];
+    MapMarker *marker = [[MapMarker alloc] initWithData:data];
     NSString *title = [marker title];
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");
@@ -49,11 +50,9 @@
 
 - (void)testNilName
 {
-    CLLocationCoordinate2D placeCoord;
-    placeCoord.longitude = -93.2636;
-    placeCoord.latitude = 44.9800;
+    NSDictionary *data = [[NSDictionary alloc] init];
     
-    MapMarker *marker = [[MapMarker alloc] initWithName:Nil address:@"123 Grand Ave" coordinate:placeCoord icon:@"" placeId:@""];
+    MapMarker *marker = [[MapMarker alloc] initWithData:data];
     NSString *title = [marker title];
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");

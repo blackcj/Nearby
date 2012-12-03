@@ -28,6 +28,8 @@
 @property (copy) NSString *placeId;
 @property (nonatomic, readonly) CLLocationCoordinate2D coordinate;
 
-- (id)initWithName:(NSString*)name address:(NSString*)address coordinate:(CLLocationCoordinate2D)coordinate icon:(NSString*)icon placeId:(NSString*)placeId;
+- (id) initWithData:(NSDictionary *)place;
+
+- (NSString *)iconPath;
 
 @end

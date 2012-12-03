@@ -57,9 +57,16 @@
 
 - (void)viewDidUnload
 {
+    [marker release];
+    [detailView release];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
+}
+
+- (void)dealloc
+{
+    [marker release];
+    [detailView release];
+    [super viewDidUnload];    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

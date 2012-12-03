@@ -65,11 +65,11 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Nearby/com/bti/models/MapMarker.m"
-         timestampString = "376103824.276094"
+         timestampString = "376198961.042667"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "33"
-         endingLineNumber = "33"
+         startingLineNumber = "53"
+         endingLineNumber = "53"
          landmarkName = "-title"
          landmarkType = "5">
       </FileBreakpoint>
@@ -147,12 +147,26 @@
          continueAfterRunningActions = "No"
          isPathRelative = "1"
          filePath = "Nearby/com/bti/controllers/SearchMapController.m"
-         timestampString = "376181064.197063"
+         timestampString = "376201204.129017"
          startingColumnNumber = "9223372036854775807"
          endingColumnNumber = "9223372036854775807"
-         startingLineNumber = "262"
-         endingLineNumber = "262"
+         startingLineNumber = "266"
+         endingLineNumber = "266"
          landmarkName = "-mapView:viewForAnnotation:"
+         landmarkType = "5">
+      </FileBreakpoint>
+      <FileBreakpoint
+         shouldBeEnabled = "No"
+         ignoreCount = "0"
+         continueAfterRunningActions = "No"
+         isPathRelative = "1"
+         filePath = "NearbyTests/MapMarkerTests.m"
+         timestampString = "376196989.167827"
+         startingColumnNumber = "9223372036854775807"
+         endingColumnNumber = "9223372036854775807"
+         startingLineNumber = "17"
+         endingLineNumber = "17"
+         landmarkName = "-testInitWithName"
          landmarkType = "5">
       </FileBreakpoint>
    </FileBreakpoints>

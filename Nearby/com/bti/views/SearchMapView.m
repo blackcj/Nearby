@@ -44,7 +44,7 @@
         [navigateButton setBackgroundImage:[UIImage imageNamed:@"selected_green.png"] forState:UIControlStateSelected];
         [navigateButton setBackgroundImage: [UIImage imageNamed:@"normal_down.png"] forState: UIControlStateHighlighted];
         [navigateButton setBackgroundImage: [UIImage imageNamed:@"selected_green.png"] forState: UIControlStateHighlighted | UIControlStateSelected];
-        navigateButton.frame = CGRectMake(4,self.bounds.size.height - 44, 40, 40);
+        navigateButton.frame = CGRectMake(NAV_BUTTON_PADDING,self.bounds.size.height - NAV_BUTTON_PADDING - NAV_BUTTON_HEIGHT, NAV_BUTTON_HEIGHT, NAV_BUTTON_HEIGHT);
         [self addSubview:navigateButton];
         
         overlay = [[UIView alloc] initWithFrame:CGRectMake(self.bounds.origin.x,self.bounds.origin.y, self.bounds.size.width, self.bounds.size.height)];
@@ -65,13 +65,12 @@
 - (void) layoutSubviews
 {
     [super layoutSubviews];
-    navigateButton.frame = CGRectMake(4,self.bounds.size.height - 50, 46, 46);
+    navigateButton.frame = CGRectMake(NAV_BUTTON_PADDING,self.bounds.size.height - NAV_BUTTON_PADDING - NAV_BUTTON_HEIGHT, NAV_BUTTON_HEIGHT, NAV_BUTTON_HEIGHT);
 }
 
 - (void) addMapOverlay
 {
     overlay.hidden = NO;
-    
 }
 
 - (void) removeMapOverlay

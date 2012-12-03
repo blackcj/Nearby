@@ -8,6 +8,12 @@
 
 #import <SenTestingKit/SenTestingKit.h>
 
+#import "SearchMapController.h"
+
 @interface NearbyTests : SenTestCase
+
+@property (nonatomic, retain) SearchMapView *searchMapView;
+
+@property (strong, nonatomic) SearchMapController *mapController;
 
 @end
