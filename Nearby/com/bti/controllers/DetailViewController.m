@@ -50,7 +50,7 @@
     self.view = self.detailView;
     self.navigationController.navigationBar.hidden = NO;
     UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:marker.icon]]];
-    UIImageView* imageView = [[UIImageView alloc] initWithImage:image];
+    UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     [self.view addSubview:imageView];
     [imageView setCenter:CGPointMake(CGRectGetMidX([self.view bounds]), 60.0)];
 }

@@ -96,6 +96,7 @@
 - (void)viewDidUnload
 {
     [mapController removeFromParentViewController];
+    [mapController release];
     [searchView release];
     [searchTerm release];
     [super viewDidUnload];
@@ -108,6 +109,7 @@
 - (void) dealloc 
 {
     [mapController removeFromParentViewController];
+    [mapController release];
     [searchView release];
     [searchTerm release];
     [super dealloc];
@@ -148,8 +150,9 @@
     } 
     else if(searchTerm.length > 0)
     {
+        NSString *urlEncode = [searchTerm stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
         // Build the url string to send to Google.
-        NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", mapController.lastLocation.latitude, mapController.lastLocation.longitude,[NSString stringWithFormat:@"%i", mapController.currentDist], searchTerm, kGOOGLE_API_KEY];
+        NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", mapController.lastLocation.latitude, mapController.lastLocation.longitude,[NSString stringWithFormat:@"%i", mapController.currentDist], urlEncode, kGOOGLE_API_KEY];
         
         //Formulate the string as a URL object.
         NSURL *googleRequestURL=[NSURL URLWithString:url];
