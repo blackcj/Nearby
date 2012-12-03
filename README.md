@@ -1,6 +1,6 @@
 Nearby
 ================
-Nearby is an iOS application that finds the closest cafe to your current location.
+Nearby is an iOS application that allows you to search for places near your current location.
 
 SDK TARGET VERSION
 ---------------------------
