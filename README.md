@@ -46,6 +46,6 @@ FRAMEWORKS
 NEXT STEPS
 ---------------------------
 - Add more unit tests
-- Add a DetailView page showing more info about the selected marker
+- Improve detail view to include more information
 - Add type callout to narrow down results by type
 - Integrate with multiple APIs (Yelp?)
