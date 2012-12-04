@@ -66,7 +66,8 @@
 {
     [marker release];
     [detailView release];
-    [super viewDidUnload];    
+    [super viewDidUnload];
+    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
