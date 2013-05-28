@@ -7,20 +7,11 @@
 //
 
 #import "ViewController.h"
+#import "SearchMapController.h"
+#import "SearchView.h"
+#import "DetailViewController.h"
 
 @implementation ViewController
-
-/**
- *  QUESTION:
- *  What is the proper syntax for @synthesize? 
- *  I've seen '@synthesize name = _name', '@sythesize name' and have read that modern Objective C
- *  automatically synthesizes variables. 
- *
- */
-
-@synthesize mapController;
-@synthesize searchView;         // MapView instanc
-@synthesize searchTerm;         // Query text for the Google Places API
 
 #pragma mark - View lifecycle
 
@@ -33,7 +24,7 @@
     [super loadView];
     
     // Set default values
-    searchTerm = DEFAULT_SEARCH_TERM;
+    self.searchTerm = DEFAULT_SEARCH_TERM;
 }
 
 - (void) viewDidLoad
@@ -46,11 +37,11 @@
     self.searchView.searchField.delegate = self;
     self.view = self.searchView;
     
-    mapController = [[SearchMapController alloc] init];
+    self.mapController = [[SearchMapController alloc] init];
 
-    [self addChildViewController:mapController];
-    [self.searchView addSubview:mapController.view];
-    mapController.view.frame = self.view.bounds;
+    [self addChildViewController:self.mapController];
+    [self.searchView addSubview:self.mapController.view];
+    self.mapController.view.frame = self.view.bounds;
     
     [[NSNotificationCenter defaultCenter]
      addObserver:self
@@ -66,11 +57,11 @@
     
     
 
-    if(kGOOGLE_API_KEY == @"YOUR_GOOGLE_PLACES_API_KEY")
+    if([kGOOGLE_API_KEY isEqual: @"YOUR_GOOGLE_PLACES_API_KEY"])
     {
         [self.mapController deselectNavButton];
        // self.searchView.navigateButton.selected = NO;
-        mapController.focusShift = FALSE;
+        self.mapController.focusShift = FALSE;
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:INVALID_KEY_ERROR
                                                   message:INVALID_KEY_MESSAGE
                                                   delegate:nil 
@@ -78,7 +69,7 @@
                                                   otherButtonTitles:nil];   //retain count = 1
         
         [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
-        [alert release];    //retain count = 1
+            //retain count = 1
     }
 }
 
@@ -95,10 +86,7 @@
 
 - (void)viewDidUnload
 {
-    [mapController removeFromParentViewController];
-    [mapController release];
-    [searchView release];
-    [searchTerm release];
+    [self.mapController removeFromParentViewController];
     [super viewDidUnload];
 }
 
@@ -108,11 +96,7 @@
  */
 - (void) dealloc 
 {
-    [mapController removeFromParentViewController];
-    [mapController release];
-    [searchView release];
-    [searchTerm release];
-    [super dealloc];
+    [self.mapController removeFromParentViewController];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -134,7 +118,7 @@
 - (void) queryGooglePlaces
 {
     // If no location, alert to the user to turn on location services.
-    if(mapController.userLocation.longitude == 0.0 && self.mapController.searchMapView.navigateButton.selected)
+    if(self.mapController.userLocation.longitude == 0.0 && self.mapController.searchMapView.navigateButton.selected)
     {
         
         UIAlertView *alert = [[UIAlertView alloc] initWithTitle:NO_LOCATION_TITLE 
@@ -144,15 +128,15 @@
                                                   otherButtonTitles:nil];   //retain count = 1
         
         [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
-        [alert release];    //retain count = 1
+            //retain count = 1
         
-        [mapController setDefaultData];
+        [self.mapController setDefaultData];
     } 
-    else if(searchTerm.length > 0)
+    else if(self.searchTerm.length > 0)
     {
-        NSString *urlEncode = [searchTerm stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
+        NSString *urlEncode = [self.searchTerm stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding];
         // Build the url string to send to Google.
-        NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", mapController.lastLocation.latitude, mapController.lastLocation.longitude,[NSString stringWithFormat:@"%i", mapController.currentDist], urlEncode, kGOOGLE_API_KEY];
+        NSString *url = [NSString stringWithFormat:@"https://maps.googleapis.com/maps/api/place/search/json?location=%f,%f&radius=%@&keyword=%@&sensor=true&key=%@", self.mapController.lastLocation.latitude, self.mapController.lastLocation.longitude,[NSString stringWithFormat:@"%i", self.mapController.currentDist], urlEncode, kGOOGLE_API_KEY];
         
         //Formulate the string as a URL object.
         NSURL *googleRequestURL=[NSURL URLWithString:url];
@@ -165,7 +149,7 @@
     }
     else 
     {
-        [mapController cleanUpMap];
+        [self.mapController cleanUpMap];
     }
 }
 
@@ -175,7 +159,7 @@
  */
 -(void)plotPositions:(NSArray *)data 
 {
-    [mapController cleanUpMap];  // Remove existing markers.
+    [self.mapController cleanUpMap];  // Remove existing markers.
     MKMapView *mapView = self.mapController.searchMapView.mapKit;
     
     // If no results, alert to the user to try a different term.
@@ -188,15 +172,15 @@
                                                   otherButtonTitles:nil];   //retain count = 1
         
         [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
-        [alert release];    //retain count = 1
+            //retain count = 1
     }
     
     // Loop through the data returned from Goolge Places API and place markers.
     for (int i=0; i<[data count]; i++) {
-        NSDictionary *place = [data objectAtIndex:i];
+        NSDictionary *place = data[i];
         MapMarker *placeObject = [[MapMarker alloc] initWithData:place];  //retain count = 1
         [mapView addAnnotation:placeObject];                                                                    //retain count = 2 (the map does an extra retain)
-        [placeObject release];                                                                                  //retain count = 1
+                                                                                          //retain count = 1
     }
 }
 
@@ -213,7 +197,7 @@
                           options:kNilOptions 
                           error:&error];
     
-    NSArray* places = [json objectForKey:@"results"]; 
+    NSArray* places = json[@"results"]; 
     //NSLog(@"Google Places Data: %@", places);
     [self plotPositions:places];
 }
@@ -223,7 +207,7 @@
 - (void) showDetailPage:(NSNotification *) notification
 {
     id ndict = [notification userInfo];
-	id annotation = [ndict objectForKey:@"data"];
+	id annotation = ndict[@"data"];
     DetailViewController *detailController = [[DetailViewController alloc] initWithMarker:((MapMarker *)annotation)];
     [self.navigationController pushViewController:detailController animated:TRUE];
 }
@@ -265,7 +249,7 @@
 {
     [textField resignFirstResponder];                       // Remove focus from text input
     [self.mapController.searchMapView removeMapOverlay];    // Remove map overlay
-    searchTerm = self.searchView.searchField.text;          // Set the search term to the user entered value
+    self.searchTerm = self.searchView.searchField.text;          // Set the search term to the user entered value
     [self queryGooglePlaces];                      // Query Google Places with the new value
     return NO;
 }

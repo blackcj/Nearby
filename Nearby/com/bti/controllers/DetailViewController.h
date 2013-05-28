@@ -8,20 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-#import "DetailView.h"
-#import "MapMarker.h"
+@class DetailView;
+@class MapMarker;
 
 @interface DetailViewController : UIViewController
-{
-    DetailView *detailView;
-    MapMarker *marker;
-}
 
 // Decided on MapKit to utlize more Objective C code
-@property (nonatomic, retain) DetailView *detailView;
+@property (nonatomic, strong) DetailView *detailView;
 
 // Decided on MapKit to utlize more Objective C code
-@property (nonatomic, retain) MapMarker *marker;
+@property (nonatomic, strong) MapMarker *marker;
 
 // Init with MapMarker
 - (id) initWithMarker:(MapMarker*)mapMarker;

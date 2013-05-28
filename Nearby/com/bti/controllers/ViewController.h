@@ -12,9 +12,8 @@
 
 #import <UIKit/UIKit.h>
 
-#import "SearchView.h"
-#import "DetailViewController.h"
-#import "SearchMapController.h"
+@class SearchMapController;
+@class SearchView;
 
 #define kGOOGLE_API_KEY                 @"YOUR_GOOGLE_PLACES_API_KEY"               // Google Places API Key
 #define DEFAULT_SEARCH_TERM             @"cafe"                                     // Default search term so results show right away
@@ -27,19 +26,14 @@
 
 // Added MKMapViewDelegate to allow assignmnet to mapView.delegate
 @interface ViewController : UIViewController <UITextFieldDelegate>
-{
-    SearchView *searchView;
-    SearchMapController *mapController;
-    NSString *searchTerm;
-}
 
 @property (strong, nonatomic) SearchMapController *mapController;     // Map ViewController
 
 // Decided on MapKit to utlize more Objective C code
-@property (nonatomic, retain) SearchView *searchView;
+@property (nonatomic, strong) SearchView *searchView;
 
 // Stores the current search term.
-@property (nonatomic, retain) NSString *searchTerm;
+@property (nonatomic, strong) NSString *searchTerm;
 
 - (void) queryGooglePlaces;
 

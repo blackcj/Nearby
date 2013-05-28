@@ -41,7 +41,6 @@
 - (void)viewDidUnload
 {
     [self cleanUpMap];
-    [searchMapView release];
     [super viewDidUnload];
 }
 
@@ -52,8 +51,6 @@
 - (void) dealloc 
 {
     [self cleanUpMap];
-    [searchMapView release];
-    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -186,8 +183,8 @@
     // Calculate distance from before to now. Normalize it. Divide it by the current zoom level to keep it consistent.
     CLLocationDistance distance = ([before distanceFromLocation:now]) * DISTANCE_MULTIPLIER / (currentDist / 1000);
     
-    [before release];   //retain count = 0
-    [now release];      //retain count = 0
+       //retain count = 0
+          //retain count = 0
     
     if( (distance > SCROLL_UPDATE_DISTANCE || focusShift) && userLocation.longitude != 0.0)
     {
@@ -240,7 +237,7 @@
                                               otherButtonTitles:nil];   //retain count = 1
     
     [alert show];       //retain count = 2 (alert should auto release when closed bringing count to 0)
-    [alert release];    //retain count = 1
+        //retain count = 1
     
     [self setDefaultData];
 }
@@ -273,12 +270,11 @@
 - (void) mapView:(MKMapView *)aMapView annotationView:(MKAnnotationView *)pin calloutAccessoryControlTapped:(UIControl *)control
 {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] init];
-    [dict setObject:pin.annotation forKey:@"data"];
+    dict[@"data"] = pin.annotation;
      
     [[NSNotificationCenter defaultCenter]
      postNotificationName:SHOW_DETAIL_EVENT
      object:Nil userInfo:dict ];
-    [dict release];
 }
 
 @end

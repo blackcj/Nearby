@@ -15,11 +15,7 @@
 #define SEARCH_PLACEHOLDER             @"Search"
 
 @interface SearchView : UIView
-{
-    UITextField *searchField;
-}
 
-// 
-@property (nonatomic, retain) UITextField *searchField;
+@property (nonatomic, strong) UITextField *searchField;
 
 @end

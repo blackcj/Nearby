@@ -82,13 +82,6 @@
  *  Clean up memory.
  *
  */
-- (void) dealloc 
-{
-    [overlay release];
-    [mapKit release];
-    [navigateButton release];
-    [super dealloc];
-}
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -12,7 +12,7 @@
 
 @interface NearbyTests : SenTestCase
 
-@property (nonatomic, retain) SearchMapView *searchMapView;
+@property (nonatomic, strong) SearchMapView *searchMapView;
 
 @property (strong, nonatomic) SearchMapController *mapController;
 

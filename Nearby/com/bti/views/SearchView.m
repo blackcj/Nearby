@@ -10,8 +10,6 @@
 
 @implementation SearchView
 
-@synthesize searchField;
-
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
@@ -21,15 +19,15 @@
         self.autoresizesSubviews = YES;
         //self.frame = frame;
         
-        searchField = [[UITextField alloc] initWithFrame:CGRectMake(6,6, self.bounds.size.width - 12, 32)];
-        searchField.placeholder = SEARCH_PLACEHOLDER;
-        searchField.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
-        searchField.borderStyle = UITextBorderStyleRoundedRect;
-        searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
-        searchField.returnKeyType = UIReturnKeyDone;
-        searchField.autocorrectionType = UITextAutocorrectionTypeNo;
-        searchField.autocapitalizationType = UITextAutocapitalizationTypeNone;
-        searchField.clearButtonMode = UITextFieldViewModeAlways;
+        self.searchField = [[UITextField alloc] initWithFrame:CGRectMake(6,6, self.bounds.size.width - 12, 32)];
+        self.searchField.placeholder = SEARCH_PLACEHOLDER;
+        self.searchField.autoresizingMask = (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight);
+        self.searchField.borderStyle = UITextBorderStyleRoundedRect;
+        self.searchField.contentVerticalAlignment = UIControlContentVerticalAlignmentCenter;
+        self.searchField.returnKeyType = UIReturnKeyDone;
+        self.searchField.autocorrectionType = UITextAutocorrectionTypeNo;
+        self.searchField.autocapitalizationType = UITextAutocapitalizationTypeNone;
+        self.searchField.clearButtonMode = UITextFieldViewModeAlways;
         // SearchField added to the navigationBar
         
     }
@@ -40,11 +38,6 @@
  *  Clean up memory.
  *
  */
-- (void) dealloc 
-{
-    [searchField release];
-    [super dealloc];
-}
 
 /*
 // Only override drawRect: if you perform custom drawing.

@@ -32,7 +32,6 @@
     STAssertEquals(-122.02948, coordinate.longitude, @"wrong initial latitude");
     STAssertEquals(37.323451, coordinate.latitude, @"wrong initial longitude");
     
-    [marker release];
 }
 
 - (void)testEmptyName
@@ -45,7 +44,6 @@
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");
     
-    [marker release];
 }
 
 - (void)testNilName
@@ -57,7 +55,6 @@
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");
     
-    [marker release];
 }
 
 - (void)testInit
@@ -68,7 +65,6 @@
     
     STAssertEqualObjects(@"Unknown", title, @"wrong title");
     
-    [marker release];
 }
 
 @end

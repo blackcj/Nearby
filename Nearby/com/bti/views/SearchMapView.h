@@ -26,13 +26,13 @@
 
 
 // Overlay used when user types in the search field
-@property (nonatomic, retain) UIView *overlay;
+@property (nonatomic, strong) UIView *overlay;
 
 // Decided on MapKit to utlize more Objective C code
-@property (nonatomic, retain) MKMapView *mapKit;
+@property (nonatomic, strong) MKMapView *mapKit;
 
 // Button used to lock to user location
-@property (nonatomic, retain) UIButton *navigateButton;
+@property (nonatomic, strong) UIButton *navigateButton;
 
 // Darken the map, used when searchInput has focus. Also helps to pick up touch events to hide keyboard.
 - (void)addMapOverlay;

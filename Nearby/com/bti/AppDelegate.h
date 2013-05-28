@@ -12,17 +12,14 @@
 
 #import <UIKit/UIKit.h>
 
+// Use @class in header for property class references.
 @class ViewController;
 
 // AppDelegate built without any interface builder
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>{
-    UIWindow *window;
-    UINavigationController *navigationController;
-}
+@interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;                                 // Root Window
-
 @property (strong, nonatomic) UINavigationController *navigationController;     // Root ViewController
 
 @end

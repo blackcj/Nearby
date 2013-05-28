@@ -39,7 +39,7 @@
 }
 
 // Decided on MapKit to utlize more Objective C code
-@property (nonatomic, retain) SearchMapView *searchMapView;
+@property (nonatomic, strong) SearchMapView *searchMapView;
 
 // Stores the current position
 @property (nonatomic) CLLocationCoordinate2D lastLocation;

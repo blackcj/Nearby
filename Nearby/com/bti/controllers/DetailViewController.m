@@ -7,11 +7,10 @@
 //
 
 #import "DetailViewController.h"
+#import "DetailView.h"
+#import "MapMarker.h"
 
 @implementation DetailViewController
-
-@synthesize detailView;
-@synthesize marker;
 
 - (id)initWithMarker:(MapMarker *)mapMarker
 {
@@ -43,13 +42,13 @@
 {
     [super viewDidLoad];
     
-    [self setTitle:marker.title];
+    [self setTitle:self.marker.title];
     // Create view and add delegates
     CGRect rect = [UIScreen mainScreen].applicationFrame; 
     self.detailView = [[DetailView alloc] initWithFrame:rect];
     self.view = self.detailView;
     self.navigationController.navigationBar.hidden = NO;
-    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:marker.icon]]];
+    UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:self.marker.icon]]];
     UIImageView *imageView = [[UIImageView alloc] initWithImage:image];
     [self.view addSubview:imageView];
     [imageView setCenter:CGPointMake(CGRectGetMidX([self.view bounds]), 60.0)];
@@ -57,17 +56,12 @@
 
 - (void)viewDidUnload
 {
-    [marker release];
-    [detailView release];
     [super viewDidUnload];
 }
 
 - (void)dealloc
 {
-    [marker release];
-    [detailView release];
     [super viewDidUnload];
-    [super dealloc];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation

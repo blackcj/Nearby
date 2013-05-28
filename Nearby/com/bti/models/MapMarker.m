@@ -19,19 +19,19 @@
 {
     if ((self = [super init])) 
     {
-        NSDictionary *geo = [place objectForKey:@"geometry"];
-        NSDictionary *loc = [geo objectForKey:@"location"];
+        NSDictionary *geo = place[@"geometry"];
+        NSDictionary *loc = geo[@"location"];
         
-        NSString *name = [place objectForKey:@"name"];
-        NSString *address = [place objectForKey:@"vicinity"];
-        NSString *icon = [place objectForKey:@"icon"];
-        NSString *placeId = [place objectForKey:@"id"];
+        NSString *name = place[@"name"];
+        NSString *address = place[@"vicinity"];
+        NSString *icon = place[@"icon"];
+        NSString *placeId = place[@"id"];
         
         CLLocationCoordinate2D placeCoord;
         
         // Set the latitude and longitude.
-        placeCoord.latitude=[[loc objectForKey:@"lat"] doubleValue];
-        placeCoord.longitude=[[loc objectForKey:@"lng"] doubleValue];
+        placeCoord.latitude=[loc[@"lat"] doubleValue];
+        placeCoord.longitude=[loc[@"lng"] doubleValue];
         
         _name = [name copy];        //retain count = 1
         _address = [address copy];  //retain count = 1
@@ -50,7 +50,7 @@
 
 - (NSString *)title 
 {
-    if ([_name isKindOfClass:[NSNull class]] || _name == @"" || _name.length == 0 || _name == Nil)
+    if (_name && _name.length > 0)
     {
         return @"Unknown";
     }
@@ -70,12 +70,5 @@
  *  Clean up memory.
  *
  */
-- (void)dealloc {
-    [_placeId release]; //retain count = 0
-    [_icon release];    //retain count = 0
-    [_name release];    //retain count = 0
-    [_address release]; //retain count = 0
-    [super dealloc];
-}
 
 @end

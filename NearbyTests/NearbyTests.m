@@ -16,10 +16,10 @@
 - (void)setUp
 {
     [super setUp];
-    mapController = [[[SearchMapController alloc] init] retain];
+    mapController = [[SearchMapController alloc] init];
     STAssertNotNil(mapController, @"Could not create test subject");
     
-    searchMapView = [[[SearchMapView alloc] initWithFrame:CGRectMake(0,0, 768, 1024)] retain];
+    searchMapView = [[SearchMapView alloc] initWithFrame:CGRectMake(0,0, 768, 1024)];
     STAssertNotNil(searchMapView, @"Could not create test subject");
     // Set-up code here.
 }
